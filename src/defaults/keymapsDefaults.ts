@@ -1,27 +1,27 @@
 import { LayoutByCommand } from "../types";
 
 const DefaultLayoutCommand: LayoutByCommand = {
-  bold: { modifiers: "ctrl", key: "b" },
-  italic: { modifiers: "ctrl", key: "i" },
-  underline: { modifiers: "ctrl", key: "u" },
-  color_1: {
+  BOLD: { modifiers: "ctrl", key: "b" },
+  ITALIC: { modifiers: "ctrl", key: "i" },
+  UNDERLINE: { modifiers: "ctrl", key: "u" },
+  COLOR__1: {
     modifiers: "ctrl",
     key: "j",
   },
-  color_2: {
+  COLOR__2: {
     modifiers: "ctrl",
     key: "k",
   },
-  color_3: {
+  COLOR__3: {
     modifiers: "ctrl",
     key: "l",
   },
-  color_4: {
+  COLOR__4: {
     modifiers: "ctrl",
     key: "m",
   },
-  exposant: { modifiers: "ctrl", key: "d" },
-  indice: {
+  EXPOSANT: { modifiers: "ctrl", key: "d" },
+  INDICE: {
     modifiers: "ctrl",
     key: "o",
   },
@@ -55,43 +55,45 @@ const DefaultLayoutCommand: LayoutByCommand = {
   "popup-menu": { modifiers: "ctrl", key: "Space" },
 };
 
-const BepoLayoutCommand: LayoutByCommand = Object.assign(DefaultLayoutCommand, {
-  color_1: {
-    modifiers: "ctrl",
-    key: "t",
+const BepoLayoutCommand: LayoutByCommand = {
+  ...DefaultLayoutCommand,
+  ...{
+    COLOR__1: {
+      modifiers: "ctrl",
+      key: "t",
+    },
+    COLOR__2: {
+      modifiers: "ctrl",
+      key: "s",
+    },
+    COLOR__3: {
+      modifiers: "ctrl",
+      key: "r",
+    },
+    COLOR__4: {
+      modifiers: "ctrl",
+      key: "n",
+    },
+    INDICE: {
+      modifiers: "ctrl",
+      key: "l",
+    },
+    "loop-header": {
+      modifiers: "ctrl",
+      key: "y",
+    },
+    "loop-list-type": {
+      modifiers: "ctrl",
+      key: "/",
+    },
+    "increase-list": {
+      modifiers: "ctrl",
+      key: "*",
+    },
+    "decrease-list": {
+      modifiers: "ctrl",
+      key: "=",
+    },
   },
-  color_2: {
-    modifiers: "ctrl",
-    key: "s",
-  },
-  color_3: {
-    modifiers: "ctrl",
-    key: "r",
-  },
-  color_4: {
-    modifiers: "ctrl",
-    key: "n",
-  },
-  indice: {
-    modifiers: "ctrl",
-    key: "l",
-  },
-  "loop-header": {
-    modifiers: "ctrl",
-    key: "y",
-  },
-  "loop-list-type": {
-    modifiers: "ctrl",
-    key: "/",
-  },
-  "increase-list": {
-    modifiers: "ctrl",
-    key: "*",
-  },
-  "decrease-list": {
-    modifiers: "ctrl",
-    key: "=",
-  },
-});
-
+};
 export { DefaultLayoutCommand, BepoLayoutCommand };

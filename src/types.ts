@@ -1,4 +1,4 @@
-import { EditorState, EditorProps } from "draft-js";
+import { EditorState, EditorProps, DraftStyleMap } from "draft-js";
 import { ButtonHTMLAttributes, ReactNode, HTMLAttributes } from "react";
 
 // defaults
@@ -11,20 +11,27 @@ export interface EditorDefaultsType {
 export interface ToolbarDefaultsType {
   buttons: ToolbarButtonInput[];
 }
+
+export interface StylesDefaultsType {
+  blockStyles: DraftStyleMap;
+  defaultColors: DraftStyleMap;
+  defaultFontSizes: DraftStyleMap;
+}
 export interface DefaultsType {
   toolbar: ToolbarDefaultsType;
   commands: { styleCommands: string[]; blockCommands: string[] };
-  styles: Record<string, StylesGroup>;
+  styles: StylesDefaultsType;
   editor: EditorDefaultsType;
 }
 
 // ---------------------  api --------------------------------
 
 export type ModifiersKey = "ctrl" | "shift" | "ctrl+shift" | "";
+
 export type KeyLayoutEntry = { modifiers: ModifiersKey; key: string };
+
 export type LayoutByCommand = Record<string, KeyLayoutEntry>;
-export type CSSStyle = Partial<CSSStyleDeclaration>;
-export type StylesGroup = Record<string, CSSStyle>;
+
 // ---------------------  components --------------------------------
 
 // generic
@@ -43,10 +50,13 @@ export interface SomeEditorState {
   blockType: string;
 }
 
-export interface EditorAreaProps extends EditorProps {
+export interface EditorAreaProps {
   config: DefaultsType;
-  className?: string;
   dispatch: React.Dispatch<PecanActionsTypes>;
+  editorState: EditorState;
+  className?: string;
+  props?: EditorProps;
+  // onChange?: Function;
 }
 
 export interface PecanEditorProps {

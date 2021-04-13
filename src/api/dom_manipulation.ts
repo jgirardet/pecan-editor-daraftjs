@@ -1,6 +1,7 @@
-import { CSSStyle, StylesGroup } from "../types";
+import { DraftStyleMap } from "draft-js";
+import { CSSProperties } from "react";
 
-export function applyStyle(className: string, styles: CSSStyle) {
+export function applyStyle(className: string, styles: CSSProperties) {
   const entries = [
     ...(document.getElementsByClassName(
       className
@@ -11,6 +12,6 @@ export function applyStyle(className: string, styles: CSSStyle) {
   });
 }
 
-export function applyStyles(styles: StylesGroup) {
+export function applyStyles(styles: DraftStyleMap) {
   Object.entries(styles).forEach(([key, style]) => applyStyle(key, style));
 }

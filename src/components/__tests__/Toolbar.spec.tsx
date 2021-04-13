@@ -6,9 +6,6 @@ import { emptySomeEditorState } from "../../testsUtils/editorUtils";
 const buttons = Defaults.toolbar.buttons;
 
 describe("toolbar ", () => {
-  beforeEach(() => {
-    cy.viewport(600, 300);
-  });
   it("counts toolbar  items", () => {
     mount(
       <Toolbar

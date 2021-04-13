@@ -1,32 +1,31 @@
-import '@testing-library/jest-dom/extend-expect';
-import React from 'react';
-import { LayoutByCommand } from 'src/defaults/keymapsDefaults';
-import { getKeyBindingFunction } from '../default_keybindings';
+import { assert, expect } from "chai";
+import { LayoutByCommand } from "../../types";
+import { getKeyBindingFactory } from "../default_keybindings";
+import React from "react";
 
-// function kbEvent(key: string, ctrl: boolean = false, shift: boolean = false) {
-function kbEvent(key: string, ctrl: boolean=false, shift: boolean=false) {
-  return (new KeyboardEvent('keypress', {
+function kbEvent(key: string, ctrl: boolean = false, shift: boolean = false) {
+  return ({
     shiftKey: shift,
     ctrlKey: ctrl,
     key: key,
-  }) as unknown) as React.KeyboardEvent<{}>;
+  } as unknown) as React.KeyboardEvent<{}>;
 }
 
 const COMMANDS = {
-  ctrl: { modifiers: 'ctrl', key: 'b' },
-  shift: { modifiers: 'shift', key: 'b' },
-  ctrlshift: { modifiers: 'ctrl+shift', key: 'b' },
-  noModifier: { modifiers: '', key: 'b' },
+  ctrl: { modifiers: "ctrl", key: "b" },
+  shift: { modifiers: "shift", key: "b" },
+  ctrlshift: { modifiers: "ctrl+shift", key: "b" },
+  noModifier: { modifiers: "", key: "b" },
 } as LayoutByCommand;
-test('test getKeyBindingFunction', () => {
-  expect(getKeyBindingFunction(COMMANDS)(kbEvent('b', true))).toBe('ctrl');
-  expect(getKeyBindingFunction(COMMANDS)(kbEvent('b', false, true))).toBe(
-    'shift',
-  );
-  expect(getKeyBindingFunction(COMMANDS)(kbEvent('b', true, true))).toBe(
-    'ctrlshift',
-  );
-  expect(getKeyBindingFunction(COMMANDS)(kbEvent('b'))).toBe(
-    'noModifier',
-  );
+describe("default_keybinding", () => {
+  it("test getKeyBindingFunction", () => {
+    assert(getKeyBindingFactory(COMMANDS)(kbEvent("b", true)) === "ctrl");
+    assert(
+      getKeyBindingFactory(COMMANDS)(kbEvent("b", false, true)) === "shift"
+    );
+    assert(
+      getKeyBindingFactory(COMMANDS)(kbEvent("b", true, true)) === "ctrlshift"
+    );
+    assert(getKeyBindingFactory(COMMANDS)(kbEvent("b")) === "noModifier");
+  });
 });

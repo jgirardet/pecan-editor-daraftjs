@@ -1,10 +1,11 @@
-/* interfaces */
-
 import classNames from "classnames";
-import { ContentBlock, Editor } from "draft-js";
-import { getKeyBindingFunction } from "../api/default_keybindings";
+import { ContentBlock, DraftInlineStyle, Editor, EditorState } from "draft-js";
+import { useEffect } from "react";
+import { buildCustomStyleMap } from "../api/custom_stylemap";
+import { getKeyBindingFactory } from "../api/default_keybindings";
+import { applyStyles } from "../api/dom_manipulation";
+import { RE_STYLE } from "../api/format_commands";
 import { STYLE_COMMANDS } from "../defaults/commandsDefaults";
-import { PecanActions } from "../hooks/pecan_reducer";
 import { EditorAreaProps } from "../types";
 
 /* Components */
@@ -13,9 +14,19 @@ export const EditorArea = ({
   config,
   className = "",
   dispatch,
+  editorState,
   ...props
 }: EditorAreaProps) => {
   const editorConfig = config.editor;
+  const blockStyles = config.styles.blockStyles;
+
+  useEffect(() => {
+    applyStyles(blockStyles);
+  }, [editorState, blockStyles]);
+
+  const onChange = (state: EditorState) => {
+    dispatch({ type: "UPDATE", payload: state });
+  };
 
   function BlockStyleFn(contentBlock: ContentBlock): any {
     const type = contentBlock.getType();
@@ -34,32 +45,23 @@ export const EditorArea = ({
   }
 
   const handleKeyCommand = (command: string) => {
-    console.log(command);
-    if (STYLE_COMMANDS.includes(command.toUpperCase())) {
-      dispatch({ type: PecanActions.APPLY, payload: command.toUpperCase() });
-      return "handled";
-    } else if (command === "loop-header") {
-      // } else if (BLOCK_COMMANDS.includes(command.toLowerCase())) {
-      dispatch({ type: PecanActions.APPLY, payload: "header-one" });
-      // dispatch({ type: PecanActions.APPLY, payload: command.toLowerCase() });
+    if (STYLE_COMMANDS.includes(command) || RE_STYLE.test(command)) {
+      dispatch({ type: "APPLY", payload: command });
       return "handled";
     }
     return "not-handled";
   };
 
-  const keyBindingFn = getKeyBindingFunction(config.editor.keymapLayout);
-
-  // const keyBindingFn = (e: React.KeyboardEvent<{}>): string | null => {
-  //   console.log(e, e.code, e.key);
-  //   if (KeyBindingUtil.hasCommandModifier(e))
-  //     switch (e.key) {
-  //       case '1':
-  //         return 'header-one';
-  //     }
-
-  //   return getDefaultKeyBinding(e);
-  //   // if (BLOCK_COMMANDS.includes(command.toLowerCase()
-  // };
+  function customStyleFn(style: DraftInlineStyle, block: ContentBlock) {
+    // if (style.has("COLOR_4")) {
+    //   return {
+    //     color: "#faad1d",
+    //   };
+    // }
+    return {};
+  }
+  const keyBindingFn = getKeyBindingFactory(config.editor.keymapLayout);
+  const customStyleMap = buildCustomStyleMap(config.styles);
   return (
     <div className={classNames(className)}>
       <Editor
@@ -67,6 +69,10 @@ export const EditorArea = ({
         spellCheck={editorConfig.spellCheckEnabled}
         keyBindingFn={keyBindingFn}
         handleKeyCommand={handleKeyCommand}
+        onChange={onChange}
+        editorState={editorState}
+        customStyleMap={customStyleMap}
+        customStyleFn={customStyleFn}
         {...props}
       />
     </div>

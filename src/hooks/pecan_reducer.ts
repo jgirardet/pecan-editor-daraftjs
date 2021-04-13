@@ -1,5 +1,5 @@
-import { EditorState, RichUtils } from "draft-js";
-import { BLOCK_COMMANDS, STYLE_COMMANDS } from "../defaults/commandsDefaults";
+import { EditorState } from "draft-js";
+import { applyFormatting } from "../api/format_commands";
 import { PecanActionsTypes } from "../types";
 
 export const pecanReduer = (
@@ -14,26 +14,6 @@ export const pecanReduer = (
       return applyFormatting(state, action.payload);
     }
     default:
-      throw new Error(`${action} nes pas une action reconnue`);
+      throw new Error(`${action} n'est pas une action reconnue`);
   }
-};
-
-export const applyFormatting = (
-  state: EditorState,
-  command: string
-): EditorState => {
-  if (STYLE_COMMANDS.includes(command.toUpperCase())) {
-    return RichUtils.toggleInlineStyle(state, command.toUpperCase());
-  } else if (BLOCK_COMMANDS.includes(command)) {
-    const res = RichUtils.toggleBlockType(state, command);
-    return res;
-  }
-  return state;
-};
-
-export const isFormatCommand = (command: string): boolean => {
-  return (
-    STYLE_COMMANDS.includes(command.toUpperCase()) ||
-    BLOCK_COMMANDS.includes(command)
-  );
 };

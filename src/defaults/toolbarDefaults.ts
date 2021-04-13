@@ -54,7 +54,7 @@ export const defaultToolbarButtons: ToolbarButtonInput[] = [
     action: "header-four",
     icon: "ri-h-4",
     type: "block",
-  },
+  }
 ];
 export const ToolbarDefaults: ToolbarDefaultsType = {
   buttons: defaultToolbarButtons,
