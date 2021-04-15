@@ -4,6 +4,7 @@
 - [ ] exposant
 - [ ] indice
 - [ ] custom color
+- [ ] switch si color identique
 
 # commands/keymaps
 
@@ -17,7 +18,7 @@
 - [ ] splitblock (reset style)
 - [ ] addlinebefore
 - [ ] addlineafter
-- [ ] loop header
+- [x] loop header
 - [ ] loop list type
 - [ ] list increase
 - [ ] list decrease
@@ -25,7 +26,7 @@
 
 # organisation du code
 
-- [ ] deplacer blockstylefn
+- [x] deplacer blockstylefn
 - [ ] utilser customstylefn
 - [ ] gerer config/default
 - [ ] loader la config

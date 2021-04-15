@@ -1,5 +1,5 @@
 import { EditorState } from "draft-js";
-import { applyFormatting } from "../api/format_commands";
+import { applyFormatting, blockChange } from "../api/format_commands";
 import { PecanActionsTypes } from "../types";
 
 export const pecanReduer = (
@@ -12,6 +12,9 @@ export const pecanReduer = (
     }
     case "APPLY": {
       return applyFormatting(state, action.payload);
+    }
+    case "BLOCK_CHANGE": {
+      return blockChange(state, action.payload);
     }
     default:
       throw new Error(`${action} n'est pas une action reconnue`);

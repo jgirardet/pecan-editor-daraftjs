@@ -5,6 +5,8 @@ import { createEditorStateWithText } from "@draft-js-plugins/editor";
 import { applyFormatting, RE_STYLE, switchStyle } from "../format_commands";
 import { EditorState, RichUtils } from "draft-js";
 import { OrderedSet } from "immutable";
+import { cssObjToString } from "../dom_manipulation";
+import { defaultBlockStyles } from "../../defaults/stylesDefaults";
 describe("test applyformatting", () => {
   const commands = [
     "BOLD",
@@ -71,5 +73,20 @@ describe("test switchStyle", () => {
       "BOLD",
       "COLOR__4",
     ]);
+  });
+});
+
+describe("test cssObjToString", () => {
+  it("transformes a base", () => {
+    const style = {
+      selector: ".bla",
+      styles: { color: "blue", "font-size": "500" },
+    };
+    expect(cssObjToString(style)).equal(".bla{color:blue;font-size:500;} ");
+  });
+  it("transformes a default block", () => {
+    expect(cssObjToString(defaultBlockStyles[0])).equal(
+      ".pecan-titre1{color:#FF3860;text-decoration-line:underline;text-decoration-style:solid;text-decoration-color:#FF3860;text-transform:uppercase;font-size:2.5em;font-weight:500;font-family:verdana;} "
+    );
   });
 });

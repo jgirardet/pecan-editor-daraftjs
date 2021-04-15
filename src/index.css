@@ -2,9 +2,11 @@
 @import "remixicon/fonts/remixicon.css";
 @import "draft-js/dist/Draft.css";
 @import "@creativebulma/bulma-tooltip/dist/bulma-tooltip.min.css";
-@import "./static/index.css";
 
 @font-face {
   font-family: "verdana";
   src: url("./static/fonts/Verdana.ttf") format("truetype");
+}
+
+#pecan-editor-css {
 }

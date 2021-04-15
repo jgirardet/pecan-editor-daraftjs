@@ -1,6 +1,4 @@
-import {
-  DraftInlineStyle,
-} from "draft-js";
+import { DraftInlineStyle } from "draft-js";
 import { ContentState } from "draft-js";
 import { EditorState, RichUtils } from "draft-js";
 import { STYLE_COMMANDS, BLOCK_COMMANDS } from "../defaults/commandsDefaults";
@@ -10,6 +8,17 @@ import { mapSelectedCharacters } from "./draftutils";
 
 export const RE_STYLE = RegExp("^[A-Z]+__[.#A-Z0-9]+$"); // match custom styles
 
+const LOOP_HEADER = [
+  "header-one",
+  "header-two",
+  "header-three",
+  "header-four",
+  "unstyled",
+];
+
+/*
+Apply inline style
+*/
 export function applyFormatting(
   state: EditorState,
   command: string
@@ -17,9 +26,22 @@ export function applyFormatting(
   if (STYLE_COMMANDS.includes(command))
     return RichUtils.toggleInlineStyle(state, command);
   else if (RE_STYLE.test(command)) return switchStyle(state, command);
-  else if (BLOCK_COMMANDS.includes(command))
-    return RichUtils.toggleBlockType(state, command);
 
+  return state;
+}
+
+/*
+Change Block style.
+command: loop-header : select the next in LOOP-HEADER
+command: any of LOOP_HEADER : go with it
+*/
+export function blockChange(state: EditorState, command: string): EditorState {
+  const header = RichUtils.getCurrentBlockType(state);
+  if (LOOP_HEADER.includes(header)) {
+    const idx = (LOOP_HEADER.indexOf(header) + 1) % LOOP_HEADER.length;
+    return RichUtils.toggleBlockType(state, LOOP_HEADER[idx]);
+  } else if (BLOCK_COMMANDS.includes(command))
+    return RichUtils.toggleBlockType(state, command);
   return state;
 }
 

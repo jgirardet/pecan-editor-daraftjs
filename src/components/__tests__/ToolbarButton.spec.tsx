@@ -50,22 +50,27 @@ describe("ToolbarButtons", () => {
       .should("not.have.class", "is-active");
   });
 
-  it("click fire action", () => {
-    const spy = cy.spy().as("click");
-    unmount();
-    mount(
-      <ToolbarButton
-        buttonData={bold}
-        handler={spy}
-        someEditorState={emptySomeEditorState}
-      />
-    );
-    cy.get("button").click();
-    cy.get("@click").should("be.calledWith", {
-      type: "APPLY",
-      payload: "BOLD",
-    });
-  });
+  [
+    { blocktype: "inline", command: "APPLY" },
+    { blocktype: "block", command: "BLOCK_CHANGE" },
+  ].forEach((genre) =>
+    it("click fire action", () => {
+      const spy = cy.spy().as("click");
+      unmount();
+      mount(
+        <ToolbarButton
+          buttonData={bold}
+          handler={spy}
+          someEditorState={{ blockType: genre.blocktype, inlineStyles: [] }}
+        />
+      );
+      cy.get("button").click();
+      cy.get("@click").should("be.calledWith", {
+        type: genre.command,
+        payload: "BOLD",
+      });
+    })
+  );
 
   it("color change if current curosrstyle match button", () => {
     // expect(button).not.toHaveClass('has-text-info');

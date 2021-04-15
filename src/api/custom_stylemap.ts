@@ -22,7 +22,7 @@ export const buildCustomStyleMap = (
   styles: StylesDefaultsType
 ): DraftStyleMap => {
   return {
-    ...styles.blockStyles,
+    // ...styles.blockStyles,
     ...styles.defaultColors,
     ...styles.defaultFontSizes,
   };

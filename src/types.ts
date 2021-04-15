@@ -3,6 +3,21 @@ import { ButtonHTMLAttributes, ReactNode, HTMLAttributes } from "react";
 
 // defaults
 
+export interface BlockStyle {
+  selector: string;
+  styles: {
+    color?: string;
+    "text-decoration-line"?: string;
+    "text-decoration-style"?: string;
+    "text-decoration-color"?: string;
+    "text-transform"?: string;
+    "font-size"?: string;
+    "font-weight"?: string;
+    "font-family"?: string;
+  };
+}
+export type BlockStyles = BlockStyle[];
+
 export interface EditorDefaultsType {
   spellCheckEnabled: boolean;
   keymapLayout: LayoutByCommand;
@@ -13,7 +28,7 @@ export interface ToolbarDefaultsType {
 }
 
 export interface StylesDefaultsType {
-  blockStyles: DraftStyleMap;
+  blockStyles: BlockStyles;
   defaultColors: DraftStyleMap;
   defaultFontSizes: DraftStyleMap;
 }
@@ -89,7 +104,7 @@ export interface PecanContextProps {
   config: DefaultsType;
 }
 
-export type PecanActions = "UPDATE" | "APPLY";
+export type PecanActions = "UPDATE" | "APPLY" | "BLOCK_CHANGE";
 
 export interface PecanActionsType {
   type: PecanActions;
@@ -106,4 +121,12 @@ export interface PecanActionsApply extends PecanActionsType {
   payload: string;
 }
 
-export type PecanActionsTypes = PecanActionsUpdate | PecanActionsApply;
+export interface PecanActionsBlockChange extends PecanActionsType {
+  type: "BLOCK_CHANGE";
+  payload: string;
+}
+
+export type PecanActionsTypes =
+  | PecanActionsUpdate
+  | PecanActionsApply
+  | PecanActionsBlockChange;

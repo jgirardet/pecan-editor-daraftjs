@@ -40,7 +40,11 @@ export const ToolbarButton = ({
       onMouseDown={(e: React.FormEvent) => {
         e.preventDefault();
         setPressed("is-focused");
-        handler({ type: "APPLY", payload: buttonData.action });
+        handler({
+          type:
+            someEditorState.blockType === "inline" ? "APPLY" : "BLOCK_CHANGE",
+          payload: buttonData.action,
+        });
       }}
       onMouseUp={() => setPressed("")}
       onMouseLeave={() => setHover("")}
