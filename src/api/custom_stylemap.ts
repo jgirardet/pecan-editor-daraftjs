@@ -9,15 +9,6 @@ function toNumberString(num: number) {
   }
 }
 
-export const buildFontSizeDefaults = (sizes: number[]): DraftStyleMap => {
-  let res: DraftStyleMap = {};
-  sizes.forEach((x) => {
-    const ns = toNumberString(x);
-    res[`FONTSIZE_${ns}`] = { fontSize: ns + "em" };
-  });
-  return res;
-};
-
 export const buildCustomStyleMap = (
   styles: StylesDefaultsType
 ): DraftStyleMap => {

@@ -1,17 +1,22 @@
 # Inline Style
 
-- [ ] fontsize
+- [x] fontsize
 - [ ] exposant
 - [ ] indice
 - [ ] custom color
 - [ ] switch si color identique
 
+# Toolbar 
+- [ ] 4 colors
+- [ ] color picker
+- [ ] fontSize
+- [ ] spellcheck 
 # commands/keymaps
 
 - [ ] exposant
 - [ ] indice
-- [ ] increase font
-- [ ] decrease font
+- [x] increase font
+- [x] decrease font
 - [ ] select word
 - [ ] undo
 - [ ] redo
@@ -27,7 +32,8 @@
 # organisation du code
 
 - [x] deplacer blockstylefn
-- [ ] utilser customstylefn
+- [x] utilser customstylefn fontsize
+- [ ] utilser customstylefn customcolor
 - [ ] gerer config/default
 - [ ] loader la config
 - [ ] changer APPLY to FORMAT et peut être d'autrs

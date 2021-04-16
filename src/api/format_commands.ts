@@ -1,10 +1,12 @@
-import { DraftInlineStyle } from "draft-js";
+import { DraftInlineStyle, Editor } from "draft-js";
 import { ContentState } from "draft-js";
 import { EditorState, RichUtils } from "draft-js";
 import { STYLE_COMMANDS, BLOCK_COMMANDS } from "../defaults/commandsDefaults";
 
 import { CharacterMetadata } from "draft-js";
-import { mapSelectedCharacters } from "./draftutils";
+import { findInlineStyle, mapSelectedCharacters } from "./draftutils";
+import { DefaultsType } from "../types";
+import { FontSize, fontsize } from "./fontsize";
 
 export const RE_STYLE = RegExp("^[A-Z]+__[.#A-Z0-9]+$"); // match custom styles
 
@@ -23,10 +25,10 @@ export function applyFormatting(
   state: EditorState,
   command: string
 ): EditorState {
+  console.log("applyFormatting : ", command);
   if (STYLE_COMMANDS.includes(command))
     return RichUtils.toggleInlineStyle(state, command);
   else if (RE_STYLE.test(command)) return switchStyle(state, command);
-
   return state;
 }
 
@@ -45,6 +47,32 @@ export function blockChange(state: EditorState, command: string): EditorState {
   return state;
 }
 
+/*
+Increase Font Size
+*/
+export function moveFontSize(
+  state: EditorState,
+  command: string,
+  config: DefaultsType
+): EditorState {
+  let style: string = findInlineStyle(state, (val) =>
+    val!.startsWith("FONTSIZE")
+  );
+  if (!style) {
+    const sel = state.getSelection();
+    style = FontSize.fromBlock(
+      state,
+      config.styles.blockStyles,
+      sel.getAnchorKey()
+    ).toStyle();
+  }
+  const newFontSizeStyle =
+    command === "increase-font"
+      ? fontsize(style).increase()
+      : fontsize(style).decrease();
+  return switchStyle(state, newFontSizeStyle);
+}
+
 /* Switch Style of the current selection
 Each style has the following format : PREFIX__VALUE
 PREFIX: the collection
@@ -52,6 +80,7 @@ VALUE: the style
 example: COLOR__1, FONTSIZE__12
 */
 export function switchStyle(state: EditorState, newStyle: string): EditorState {
+  console.log("switch style", newStyle);
   const selection = state.getSelection();
 
   if (selection.isCollapsed()) {

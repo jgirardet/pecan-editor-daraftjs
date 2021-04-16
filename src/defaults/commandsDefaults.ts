@@ -1,9 +1,3 @@
-import { buildFontSizeDefaults } from "../api/custom_stylemap";
-import { em_font_sizes } from "./stylesDefaults";
-
-export const FONTSIZE_COMMANDS = Object.keys(
-  buildFontSizeDefaults(em_font_sizes)
-);
 export const STYLE_COMMANDS = [
   "BOLD",
   "CODE",

@@ -85,7 +85,7 @@ describe("test cssObjToString", () => {
     expect(cssObjToString(style)).equal(".bla{color:blue;font-size:500;} ");
   });
   it("transformes a default block", () => {
-    expect(cssObjToString(defaultBlockStyles[0])).equal(
+    expect(cssObjToString(defaultBlockStyles.get(0))).equal(
       ".pecan-titre1{color:#FF3860;text-decoration-line:underline;text-decoration-style:solid;text-decoration-color:#FF3860;text-transform:uppercase;font-size:2.5em;font-weight:500;font-family:verdana;} "
     );
   });

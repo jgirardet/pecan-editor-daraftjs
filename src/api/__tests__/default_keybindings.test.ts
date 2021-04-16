@@ -8,6 +8,7 @@ function kbEvent(key: string, ctrl: boolean = false, shift: boolean = false) {
     shiftKey: shift,
     ctrlKey: ctrl,
     key: key,
+    preventDefault: ()=>{}
   } as unknown) as React.KeyboardEvent<{}>;
 }
 

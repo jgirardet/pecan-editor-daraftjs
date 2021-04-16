@@ -2,7 +2,7 @@
 specific draftjs api utilities 
 */
 
-import { ContentState } from "draft-js";
+import { ContentState, DraftInlineStyle } from "draft-js";
 import { CharacterMetadata, EditorState, ContentBlock } from "draft-js";
 
 /*
@@ -66,3 +66,26 @@ export const mapSelectedCharacters = (
     selectionAfter: selectionState,
   }) as ContentState;
 };
+
+/*
+FindInlineStyle
+Return Inlinestyle if callback is true
+ex : findInlineStyle(state, (val)=>val.startWith("MyStyle"))
+*/
+export function findInlineStyle(
+  state: EditorState,
+  callback: (value?: string) => boolean
+): string {
+  const sel = state.getSelection();
+  let curStyles: DraftInlineStyle;
+  if (sel.isCollapsed()) {
+    curStyles = state.getCurrentInlineStyle();
+  } else {
+    curStyles = state
+      .getCurrentContent()
+      .getBlockMap()
+      .get(sel.getAnchorKey())
+      .getInlineStyleAt(sel.getAnchorOffset());
+  }
+  return curStyles.find(callback);
+}

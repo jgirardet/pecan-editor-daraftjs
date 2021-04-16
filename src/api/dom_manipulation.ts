@@ -11,7 +11,7 @@ export function getPecanStyleSheet(): CSSStyleSheet {
 
 export function ApplyBlockStyles(styles: BlockStyles) {
   const sh = getPecanStyleSheet();
-  styles.forEach((s) => sh.insertRule(cssObjToString(s)));
+  styles.forEach((s) => sh.insertRule(cssObjToString(s!)));
 }
 
 export function cssObjToString(style: BlockStyle): string {
@@ -24,6 +24,7 @@ export function cssObjToString(style: BlockStyle): string {
     "} "
   );
 }
+
 
 // // applyStyles(blockStyles);
 // console.log(document.styleSheets);

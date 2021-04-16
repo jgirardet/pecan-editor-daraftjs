@@ -5,8 +5,7 @@ import { LayoutByCommand } from "../types";
 
 let { hasCommandModifier } = KeyBindingUtil;
 
-const isCtrl = (e: React.KeyboardEvent<{}>) =>
-  hasCommandModifier(e) && !e.shiftKey;
+const isCtrl = (e: React.KeyboardEvent<{}>) => hasCommandModifier(e); // && !e.shiftKey;
 const isCtrlShift = (e: React.KeyboardEvent<{}>) =>
   hasCommandModifier(e) && e.shiftKey;
 const isShift = (e: React.KeyboardEvent<{}>) =>
@@ -44,11 +43,16 @@ export function getKeyBindingFactory(layout: LayoutByCommand) {
   const formatted = formatLayout(layout);
   return (e: React.KeyboardEvent<{}>): string | null => {
     const { key } = e;
-    if (isCtrl(e)) return formatted.ctrl[key] || null;
-    else if (isShift(e)) return formatted.shift[key] || null;
-    else if (isCtrlShift(e)) return formatted.ctrlShift[key] || null;
+    let res: string | null = null;
+    if (isCtrlShift(e)) res = formatted.ctrlShift[key];
+    else if (isCtrl(e)) res = formatted.ctrl[key];
+    else if (isShift(e)) res = formatted.shift[key];
     else if (hasNoModifier(e)) {
-      return formatted.noModifier[key] || null;
+      res = formatted.noModifier[key];
+    }
+    if (res) {
+      e.preventDefault();
+      return res;
     } else return null;
   };
 }

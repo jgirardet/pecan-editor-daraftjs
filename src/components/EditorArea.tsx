@@ -31,7 +31,7 @@ export const EditorArea = ({
   const blockStyleFn = getBlockStyleFn();
   const keyBindingFn = getKeyBindingFactory(config.editor.keymapLayout);
   const customStyleMap = buildCustomStyleMap(config.styles);
-  const handleKeyCommand = getHandleKeyCommand(dispatch);
+  const handleKeyCommand = getHandleKeyCommand(dispatch, config);
   const customStyleFn = getCustomStyleFn();
   return (
     <div className={classNames(className)}>

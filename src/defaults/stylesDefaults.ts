@@ -1,10 +1,10 @@
 import { DraftStyleMap } from "draft-js";
-import { buildFontSizeDefaults } from "../api/custom_stylemap";
 import { BlockStyles, StylesDefaultsType } from "../types";
+import { List } from "immutable";
 
 export const defaultFontFamily = "verdana";
 
-export const defaultBlockStyles: BlockStyles = [
+export const defaultBlockStyles: BlockStyles = List([
   {
     selector: ".pecan-titre1",
     styles: {
@@ -64,7 +64,7 @@ export const defaultBlockStyles: BlockStyles = [
       "font-family": defaultFontFamily,
     },
   },
-];
+]);
 
 export const DefaultColors: DraftStyleMap = {
   COLOR__1: {
@@ -82,7 +82,8 @@ export const DefaultColors: DraftStyleMap = {
 };
 
 export const em_font_sizes = [
-  0.2,
+  0.3,
+  0.4,
   0.5,
   0.6,
   0.7,
@@ -104,37 +105,35 @@ export const em_font_sizes = [
   2.6,
   2.8,
   3.0,
-  3.1,
-  3.2,
   3.3,
-  3.5,
-  3.6,
   3.9,
-  4.0,
-  4.5,
+  4,
+  2,
+  4.6,
   5.0,
   5.5,
-  6.0,
-  6.5,
-  7.0,
-  0.0,
+  6.6,
+  7,
+  2,
+  7.9,
+  8,
+  6,
+  9.4,
+  10.0,
   11.0,
   13.0,
   15.0,
   20.0,
   25.0,
   30.0,
-  35.0,
   40.0,
-  50.0,
   60.0,
-  70.0,
   90.0,
-  110.0,
 ];
 
 export const DefaultFontSizes: DraftStyleMap = {
-  ...buildFontSizeDefaults(em_font_sizes),
+  // ...buildFontSizeDefaults(em_font_sizes),
+  "FONTSIZE__2.0": { fontSize: " 2.0em" },
 };
 
 export const StylesDefaults: StylesDefaultsType = {

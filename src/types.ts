@@ -1,6 +1,6 @@
 import { EditorState, EditorProps, DraftStyleMap } from "draft-js";
 import { ButtonHTMLAttributes, ReactNode, HTMLAttributes } from "react";
-
+import { List } from "immutable";
 // defaults
 
 export interface BlockStyle {
@@ -16,7 +16,7 @@ export interface BlockStyle {
     "font-family"?: string;
   };
 }
-export type BlockStyles = BlockStyle[];
+export type BlockStyles = List<BlockStyle>;
 
 export interface EditorDefaultsType {
   spellCheckEnabled: boolean;
@@ -104,11 +104,15 @@ export interface PecanContextProps {
   config: DefaultsType;
 }
 
-export type PecanActions = "UPDATE" | "APPLY" | "BLOCK_CHANGE";
+export type PecanActions =
+  | "UPDATE"
+  | "APPLY"
+  | "BLOCK_CHANGE"
+  | "FONT_CHANGE";
 
 export interface PecanActionsType {
   type: PecanActions;
-  payload: EditorState | string;
+  payload: EditorState | string | {command:string, config:DefaultsType};
 }
 
 export interface PecanActionsUpdate extends PecanActionsType {
@@ -126,7 +130,13 @@ export interface PecanActionsBlockChange extends PecanActionsType {
   payload: string;
 }
 
+export interface PecanActionsIncreaseFont extends PecanActionsType {
+  type: "FONT_CHANGE";
+  payload: { command: string, config: DefaultsType };
+}
+
 export type PecanActionsTypes =
   | PecanActionsUpdate
   | PecanActionsApply
-  | PecanActionsBlockChange;
+  | PecanActionsBlockChange
+  | PecanActionsIncreaseFont;
