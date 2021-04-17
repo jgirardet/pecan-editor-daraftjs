@@ -4,10 +4,7 @@ import { EditorState, RichUtils } from "draft-js";
 import { STYLE_COMMANDS, BLOCK_COMMANDS } from "../defaults/commandsDefaults";
 
 import { CharacterMetadata } from "draft-js";
-import {
-  findInlineBlockFontSize,
-  mapSelectedCharacters,
-} from "./draftutils";
+import { findInlineBlockFontSize, mapSelectedCharacters } from "./draftutils";
 import { DefaultsType } from "../types";
 import { FontSize, fontsize } from "./fontsize";
 
@@ -80,7 +77,9 @@ export function switchStyle(state: EditorState, newStyle: string): EditorState {
     const prefix = newStyle.split("__")[0];
     const clearedStyles = state
       .getCurrentInlineStyle()
-      .filterNot((v, k) => k!.startsWith(prefix)) as DraftInlineStyle;
+      .filter(
+        (v, k) => k === newStyle || !k!.startsWith(prefix)
+      ) as DraftInlineStyle;
 
     const clearedState = EditorState.setInlineStyleOverride(
       state,
@@ -110,15 +109,18 @@ export function switchCharacterStyle(
   newStyle: string
 ): CharacterMetadata {
   const prefix = newStyle.split("__")[0];
+  let alreadyPresent = false;
   const cleared = char
     .getStyle()
     .toArray()
     .reduce((acc: any, val: string) => {
+      if (val === newStyle)
+        alreadyPresent = true
       if (val.startsWith(prefix))
         return CharacterMetadata.removeStyle(acc, val);
       else return acc;
     }, char);
-  return CharacterMetadata.applyStyle(cleared, newStyle);
+  return alreadyPresent ? cleared :CharacterMetadata.applyStyle(cleared, newStyle);
 }
 
 export const isFormatCommand = (command: string): boolean => {

@@ -58,6 +58,17 @@ describe("test switchStyle", () => {
       )
     ).true;
   });
+  it("remove the same if  applied if selected", () => {
+    const ed = createEditorStateWithText("ab");
+    const ed1 = setEditorSelection(ed, 0, 2);
+    const ed2 = RichUtils.toggleInlineStyle(ed1, "COLOR__1");
+    const ed3 = switchStyle(ed2, "COLOR__1");
+    expect(
+      getAllChars(ed3.getCurrentContent()).every(
+        (c) => !c!.hasStyle("COLOR__1")
+      )
+    ).true;
+  });
   it("switch override style", () => {
     const ed = createEditorStateWithText("ab");
     const ed1 = EditorState.setInlineStyleOverride(
@@ -73,6 +84,19 @@ describe("test switchStyle", () => {
       "BOLD",
       "COLOR__4",
     ]);
+  });
+  it("switch remove existing style no selection", () => {
+    const ed = createEditorStateWithText("ab");
+    const ed1 = EditorState.setInlineStyleOverride(
+      ed,
+      OrderedSet(["COLOR__1", "BOLD"])
+    );
+    expect(ed1.getInlineStyleOverride().toArray()).deep.equal([
+      "COLOR__1",
+      "BOLD",
+    ]);
+    const ed2 = switchStyle(ed1, "COLOR__1");
+    expect(ed2.getInlineStyleOverride().toArray()).deep.equal(["BOLD"]);
   });
 });
 

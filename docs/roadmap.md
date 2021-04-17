@@ -4,7 +4,7 @@
 - [ ] exposant
 - [ ] indice
 - [ ] custom color
-- [ ] switch si color identique
+- [x] switch si color identique
 
 # Toolbar 
 - [ ] 4 colors
