@@ -4,6 +4,8 @@ const DefaultLayoutCommand: LayoutByCommand = {
   BOLD: { modifiers: "ctrl", key: "b" },
   ITALIC: { modifiers: "ctrl", key: "i" },
   UNDERLINE: { modifiers: "ctrl", key: "u" },
+  STRIKETHROUGH: { modifiers: "ctrl", key: "é" },
+  CODE: { modifiers: "ctrl", key: "e" },
   COLOR__1: {
     modifiers: "ctrl",
     key: "j",

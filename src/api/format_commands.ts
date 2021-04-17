@@ -1,10 +1,13 @@
-import { DraftInlineStyle, Editor } from "draft-js";
+import { DraftInlineStyle } from "draft-js";
 import { ContentState } from "draft-js";
 import { EditorState, RichUtils } from "draft-js";
 import { STYLE_COMMANDS, BLOCK_COMMANDS } from "../defaults/commandsDefaults";
 
 import { CharacterMetadata } from "draft-js";
-import { findInlineStyle, mapSelectedCharacters } from "./draftutils";
+import {
+  findInlineBlockFontSize,
+  mapSelectedCharacters,
+} from "./draftutils";
 import { DefaultsType } from "../types";
 import { FontSize, fontsize } from "./fontsize";
 
@@ -55,17 +58,7 @@ export function moveFontSize(
   command: string,
   config: DefaultsType
 ): EditorState {
-  let style: string = findInlineStyle(state, (val) =>
-    val!.startsWith("FONTSIZE")
-  );
-  if (!style) {
-    const sel = state.getSelection();
-    style = FontSize.fromBlock(
-      state,
-      config.styles.blockStyles,
-      sel.getAnchorKey()
-    ).toStyle();
-  }
+  const style = findInlineBlockFontSize(state, config.styles.blockStyles);
   const newFontSizeStyle =
     command === "increase-font"
       ? fontsize(style).increase()

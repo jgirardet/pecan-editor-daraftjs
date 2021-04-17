@@ -1,5 +1,6 @@
 import { mount } from "@cypress/react";
 import { EditorState } from "draft-js";
+import { inlinestyles } from "../../testsUtils/samples";
 import { PecanEditor } from "../PecanEditor";
 
 describe("Pecan Editor", () => {
@@ -10,6 +11,19 @@ describe("Pecan Editor", () => {
   it("should affiche base", () => {
     cy.get("body");
   });
+
+  inlinestyles
+    .filter((x) => x.selector !== undefined)
+    .forEach((b) =>
+      it("click apply inline style " + b.title, () => {
+        cy.rooteditor()
+          .type("ab{selectAll}")
+          .get(b.selector!)
+          .click()
+          .get(b.get)
+          .should("have.length", 1);
+      })
+    );
   it("click apply block style", () => {
     cy.rooteditor()
       .type("ab")

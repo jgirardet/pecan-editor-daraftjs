@@ -42,7 +42,7 @@ export const ToolbarButton = ({
         setPressed("is-focused");
         handler({
           type:
-            someEditorState.blockType === "inline" ? "APPLY" : "BLOCK_CHANGE",
+            buttonData.type === "inline" ? "APPLY" : "BLOCK_CHANGE",
           payload: buttonData.action,
         });
       }}

@@ -27,6 +27,6 @@ describe("default_keybinding", () => {
     assert(
       getKeyBindingFactory(COMMANDS)(kbEvent("b", true, true)) === "ctrlshift"
     );
-    assert(getKeyBindingFactory(COMMANDS)(kbEvent("b")) === "noModifier");
+    expect(getKeyBindingFactory(COMMANDS)(kbEvent("b"))).equal(null);
   });
 });

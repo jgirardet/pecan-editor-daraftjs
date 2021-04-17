@@ -1,7 +1,5 @@
 # Keymaps
 
-<!-- # daftjs included -->
-
 PecanEditor Keymaps. Items in **bold** are overrinding default draft-js keymaps.
 
 | name            | command         | azerty       | bepo         |
@@ -9,6 +7,8 @@ PecanEditor Keymaps. Items in **bold** are overrinding default draft-js keymaps.
 | bold            | bold            | ctrl+b       | ctrl+b       |
 | italic          | italic          | ctrl+i       | ctrl+i       |
 | underline       | underline       | ctrl+u       | ctrl+u       |
+| strikethrough   | strikethrough   | ctrl+é       | ctrl+é       |
+| code            | code            | ctrl+e       | ctrl+e       |
 | color 1         | color_1         | **ctrl+j**   | **ctrl+t**   |
 | color 2         | color_2         | ctrl+k       | ctrl+s       |
 | color 3         | color_3         | ctrl+l       | ctrl+r       |

@@ -29,16 +29,12 @@ export class FontSize {
     state: EditorState,
     blockStyles: BlockStyles,
     key: string
-  ): FontSize {
+  ): FontSize | void {
     const block = state.getCurrentContent().getBlockMap().get(key);
     const em = blockStyles.find((x) =>
-      x?.selector.endsWith(block.getType()) ? true : false
+      x?.type === block.getType() ? true : false
     ).styles["font-size"];
-    if (em) return FontSize.fromEm(em);
-    else
-      throw new Error(
-        `CONFIGURATION ERRROR: block ${block.getType()} does not have font-size set`
-      );
+    return em ? FontSize.fromEm(em) : undefined;
   }
 
   public static fromEm(em: string): FontSize {

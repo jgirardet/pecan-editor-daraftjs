@@ -51,23 +51,23 @@ describe("ToolbarButtons", () => {
   });
 
   [
-    { blocktype: "inline", command: "APPLY" },
-    { blocktype: "block", command: "BLOCK_CHANGE" },
+    { blocktype: "inline", command: "APPLY", button:bold, payload:"BOLD"},
+    { blocktype: "block", command: "BLOCK_CHANGE", button:h1, payload:"header-one" },
   ].forEach((genre) =>
-    it("click fire action", () => {
+    it("click fire action "+genre.blocktype, () => {
       const spy = cy.spy().as("click");
       unmount();
       mount(
         <ToolbarButton
-          buttonData={bold}
+          buttonData={genre.button}
           handler={spy}
-          someEditorState={{ blockType: genre.blocktype, inlineStyles: [] }}
+          someEditorState={{ blockType: genre.blocktype, inlineStyles: [], activeFontSize:2.3 }}
         />
       );
       cy.get("button").click();
       cy.get("@click").should("be.calledWith", {
         type: genre.command,
-        payload: "BOLD",
+        payload: genre.payload
       });
     })
   );

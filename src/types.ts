@@ -1,10 +1,11 @@
-import { EditorState, EditorProps, DraftStyleMap } from "draft-js";
-import { ButtonHTMLAttributes, ReactNode, HTMLAttributes } from "react";
+import { EditorState, EditorProps, DraftStyleMap, BlockMap } from "draft-js";
+import { ButtonHTMLAttributes, ReactNode, HTMLAttributes, Props } from "react";
 import { List } from "immutable";
 // defaults
 
 export interface BlockStyle {
   selector: string;
+  type: string;
   styles: {
     color?: string;
     "text-decoration-line"?: string;
@@ -63,6 +64,7 @@ export interface DivProps extends HTMLAttributes<HTMLDivElement> {
 export interface SomeEditorState {
   inlineStyles: string[];
   blockType: string;
+  activeFontSize: number;
 }
 
 export interface EditorAreaProps {
@@ -97,6 +99,12 @@ export interface ToolbarProps {
   someEditorState: SomeEditorState;
 }
 
+export interface FontSizeSelectProps extends DivProps {
+  dispatch: React.Dispatch<PecanActionsTypes>;
+  someEditorState: SomeEditorState;
+  selectData: number[];
+}
+
 // hooks
 export interface PecanContextProps {
   editorState: EditorState;
@@ -104,15 +112,11 @@ export interface PecanContextProps {
   config: DefaultsType;
 }
 
-export type PecanActions =
-  | "UPDATE"
-  | "APPLY"
-  | "BLOCK_CHANGE"
-  | "FONT_CHANGE";
+export type PecanActions = "UPDATE" | "APPLY" | "BLOCK_CHANGE" | "FONT_CHANGE";
 
 export interface PecanActionsType {
   type: PecanActions;
-  payload: EditorState | string | {command:string, config:DefaultsType};
+  payload: EditorState | string | { command: string; config: DefaultsType };
 }
 
 export interface PecanActionsUpdate extends PecanActionsType {
@@ -132,7 +136,7 @@ export interface PecanActionsBlockChange extends PecanActionsType {
 
 export interface PecanActionsIncreaseFont extends PecanActionsType {
   type: "FONT_CHANGE";
-  payload: { command: string, config: DefaultsType };
+  payload: { command: string; config: DefaultsType };
 }
 
 export type PecanActionsTypes =

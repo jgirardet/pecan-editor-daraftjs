@@ -80,6 +80,7 @@ describe("test cssObjToString", () => {
   it("transformes a base", () => {
     const style = {
       selector: ".bla",
+      type: "unstyled",
       styles: { color: "blue", "font-size": "500" },
     };
     expect(cssObjToString(style)).equal(".bla{color:blue;font-size:500;} ");

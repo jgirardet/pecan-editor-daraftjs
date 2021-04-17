@@ -38,6 +38,7 @@ export function getAllChars(content: ContentState): List<CharacterMetadata> {
 export const emptySomeEditorState: SomeEditorState = {
   inlineStyles: [],
   blockType: "",
+  activeFontSize: 1.3,
 };
 
 export function emToPx(em: string) {

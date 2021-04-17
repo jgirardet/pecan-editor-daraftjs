@@ -6,6 +6,7 @@ import { Defaults } from "../../defaults";
 import { pecanReduer } from "../../hooks/pecan_reducer";
 import { EditorArea } from "../EditorArea";
 import { emToPx } from "../../testsUtils/editorUtils";
+import { inlinestyles } from "../../testsUtils/samples";
 const FakeEditorArea = () => {
   const [state, dispatch] = useReducer(
     pecanReduer,
@@ -40,37 +41,7 @@ describe("Editor Area keymaps", () => {
       .should("have.length", 2);
   });
 
-  const inlinestyle = [
-    { title: "bold", key: "b", get: '[style="font-weight: bold;"]' },
-    { title: "italic", key: "i", get: '[style="font-style: italic;"]' },
-    {
-      title: "underline",
-      key: "u",
-      get: '[style="text-decoration: underline;"]',
-    },
-    {
-      title: "color 1",
-      key: "j",
-      get: `[style="color: rgb(255, 56, 96);"]`,
-    },
-    {
-      title: "color 2",
-      key: "k",
-      get: `[style="color: rgb(21, 177, 104);"]`,
-    },
-    {
-      title: "color 3",
-      key: "l",
-      get: `[style="color: rgb(4, 76, 211);"]`,
-    },
-    {
-      title: "color 4",
-      key: "m",
-      get: `[style="color: rgb(250, 173, 29);"]`,
-    },
-  ];
-
-  inlinestyle.forEach((st) =>
+  inlinestyles.forEach((st) =>
     it(`test ${st.title}`, () => {
       cy.rooteditor()
         .type(`{ctrl+${st.key}}`)

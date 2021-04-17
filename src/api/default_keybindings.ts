@@ -1,6 +1,6 @@
 import React from "react";
 
-import { KeyBindingUtil } from "draft-js";
+import { getDefaultKeyBinding, KeyBindingUtil } from "draft-js";
 import { LayoutByCommand } from "../types";
 
 let { hasCommandModifier } = KeyBindingUtil;
@@ -45,14 +45,17 @@ export function getKeyBindingFactory(layout: LayoutByCommand) {
     const { key } = e;
     let res: string | null = null;
     if (isCtrlShift(e)) res = formatted.ctrlShift[key];
-    else if (isCtrl(e)) res = formatted.ctrl[key];
-    else if (isShift(e)) res = formatted.shift[key];
-    else if (hasNoModifier(e)) {
+    if (!res) {
+      if (isCtrl(e)) res = formatted.ctrl[key];
+      else if (isShift(e)) res = formatted.shift[key];
+    } else if (hasNoModifier(e)) {
       res = formatted.noModifier[key];
     }
     if (res) {
       e.preventDefault();
       return res;
-    } else return null;
+    } else return getDefaultKeyBinding(e);
   };
 }
+
+    // null; 

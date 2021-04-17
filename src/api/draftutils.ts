@@ -4,6 +4,8 @@ specific draftjs api utilities
 
 import { ContentState, DraftInlineStyle } from "draft-js";
 import { CharacterMetadata, EditorState, ContentBlock } from "draft-js";
+import { BlockStyles } from "../types";
+import { FontSize } from "./fontsize";
 
 /*
 Iterate over each choracted and apply cllback to each
@@ -88,4 +90,47 @@ export function findInlineStyle(
       .getInlineStyleAt(sel.getAnchorOffset());
   }
   return curStyles.find(callback);
+}
+
+/*
+findInlineBlockStyle
+if style not inline, try to find it in block
+*/
+export function findInlineBlockSyle(
+  state: EditorState,
+  inlinePredicate: (val?: string) => boolean,
+  blockStyles: BlockStyles,
+  blockPredicate: (
+    state: EditorState,
+    blockstyles: BlockStyles,
+    key: string
+  ) => string
+) {
+  let style: string = findInlineStyle(
+    state,
+    inlinePredicate
+    // (val) =>    val!.startsWith("FONTSIZE")
+  );
+  if (!style) {
+    const sel = state.getSelection();
+    const key = sel.getAnchorKey();
+    style = blockPredicate(state, blockStyles, key);
+    // style = FontSize.fromBlock(state, config.styles.blockStyles).toStyle()
+  }
+  return style;
+}
+
+export function findInlineBlockFontSize(
+  state: EditorState,
+  blockStyles: BlockStyles
+) {
+  return findInlineBlockSyle(
+    state,
+    (val) => val!.startsWith("FONTSIZE"),
+    blockStyles,
+    (state, blockStyles, key) => {
+      const fontsize = FontSize.fromBlock(state, blockStyles, key);
+      return fontsize ? fontsize.toStyle() : "";
+    }
+  );
 }

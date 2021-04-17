@@ -7,6 +7,7 @@ export const defaultFontFamily = "verdana";
 export const defaultBlockStyles: BlockStyles = List([
   {
     selector: ".pecan-titre1",
+    type: "header-one",
     styles: {
       color: "#FF3860",
       "text-decoration-line": "underline",
@@ -20,6 +21,8 @@ export const defaultBlockStyles: BlockStyles = List([
   },
   {
     selector: ".pecan-titre2",
+    type: "header-two",
+
     styles: {
       color: "#15b168",
       "text-decoration-line": "underline",
@@ -33,6 +36,8 @@ export const defaultBlockStyles: BlockStyles = List([
   },
   {
     selector: ".pecan-titre3",
+    type: "header-three",
+
     styles: {
       color: "#044cd3",
       "text-decoration-line": "underline",
@@ -45,6 +50,8 @@ export const defaultBlockStyles: BlockStyles = List([
   },
   {
     selector: ".pecan-titre4",
+    type: "header-four",
+
     styles: {
       color: "#faad1d",
       "text-decoration-line": "underline",
@@ -57,6 +64,8 @@ export const defaultBlockStyles: BlockStyles = List([
   },
   {
     selector: ".pecan-unstyled",
+    type: "unstyled",
+
     styles: {
       color: "#444444",
       "font-size": "1.3em",
@@ -107,17 +116,14 @@ export const em_font_sizes = [
   3.0,
   3.3,
   3.9,
-  4,
-  2,
+  4.2,
   4.6,
   5.0,
   5.5,
   6.6,
-  7,
-  2,
+  7.2,
   7.9,
-  8,
-  6,
+  8.6,
   9.4,
   10.0,
   11.0,
