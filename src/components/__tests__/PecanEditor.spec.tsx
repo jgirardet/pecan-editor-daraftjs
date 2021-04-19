@@ -3,7 +3,7 @@ import { EditorState } from "draft-js";
 import { inlinestyles } from "../../testsUtils/samples";
 import { PecanEditor } from "../PecanEditor";
 
-describe("Pecan Editor", () => {
+describe("click toolbar effects", () => {
   beforeEach(() => {
     mount(<PecanEditor initialState={EditorState.createEmpty()} />);
   });
@@ -53,5 +53,20 @@ describe("Pecan Editor", () => {
       .click() // desactivate current active
       .get("h4")
       .should("have.length", 0);
+  });
+  it("check text size is shown in FontsizeDropDown", () => {
+    cy.get(".dropdown-trigger>button").should("have.text", 13); //deafautl empty block
+    cy.rooteditor().type("{ctrl++}");
+    cy.get(".dropdown-trigger>button").should("have.text", 14); //deafautl empty block
+    cy.rooteditor().type("{ctrl+-}{ctrl+-}");
+    cy.get(".dropdown-trigger>button").should("have.text", 12); //deafautl empty block
+  });
+  it.only("test click change fontsize and do not deelect", () => {
+    cy.rooteditor().type("ab{selectAll}");
+    cy.get(".dropdown").click().get(".dropdown-item:first").click();
+    cy.rooteditor()
+    .get('span:contains("ab"):first')
+    .should("have.attr", "style", "font-size: 0.3em;");
+    cy.get(".dropdown-trigger>button").should("have.text", 3); //deafautl empty block
   });
 });

@@ -15,6 +15,6 @@ export const buildCustomStyleMap = (
   return {
     // ...styles.blockStyles,
     ...styles.defaultColors,
-    ...styles.defaultFontSizes,
+    // ...styles.defaultFontSizes,
   };
 };

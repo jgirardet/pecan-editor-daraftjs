@@ -137,13 +137,8 @@ export const em_font_sizes = [
   90.0,
 ];
 
-export const DefaultFontSizes: DraftStyleMap = {
-  // ...buildFontSizeDefaults(em_font_sizes),
-  "FONTSIZE__2.0": { fontSize: " 2.0em" },
-};
-
 export const StylesDefaults: StylesDefaultsType = {
   blockStyles: defaultBlockStyles,
   defaultColors: DefaultColors,
-  defaultFontSizes: DefaultFontSizes,
+  defaultFontSizes: em_font_sizes,
 };

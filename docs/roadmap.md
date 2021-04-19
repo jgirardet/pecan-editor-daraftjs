@@ -4,12 +4,13 @@
 - [ ] exposant
 - [ ] indice
 - [ ] custom color
-- [x] switch si color identique
+- [x] toggle si style identique
+- [ ] clear inline styles
 
 # Toolbar 
 - [ ] 4 colors
 - [ ] color picker
-- [ ] fontSize
+- [x] fontSize
 - [ ] spellcheck 
 # commands/keymaps
 

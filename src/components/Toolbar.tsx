@@ -1,6 +1,6 @@
-import { em_font_sizes } from "../defaults/stylesDefaults";
+import React from "react";
 import { ToolbarProps } from "../types";
-import { FontSizeSelect } from "./FontSizeSelect";
+import { FontSizeDropDown } from "./FontSizeDropDown";
 import { ToolbarButton } from "./ToolbarButton";
 
 /* Components */
@@ -10,7 +10,7 @@ export const Toolbar = ({
   someEditorState,
 }: ToolbarProps): JSX.Element => {
   const buttons = config.toolbar.buttons;
-  const buttonSize = "is-medium";
+  const buttonSize = config.editor.toolbarVariant;
   return (
     <div className="level is-mobile is-justify-content-start">
       {buttons.map((b) => (
@@ -24,12 +24,7 @@ export const Toolbar = ({
           />
         </div>
       ))}
-      <FontSizeSelect
-        dispatch={dispatch}
-        someEditorState={someEditorState}
-        selectData={em_font_sizes}
-        className={buttonSize}
-      />
+      <FontSizeDropDown />
     </div>
   );
 };

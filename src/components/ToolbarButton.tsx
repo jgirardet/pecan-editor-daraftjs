@@ -41,8 +41,7 @@ export const ToolbarButton = ({
         e.preventDefault();
         setPressed("is-focused");
         handler({
-          type:
-            buttonData.type === "inline" ? "APPLY" : "BLOCK_CHANGE",
+          type: buttonData.type === "inline" ? "APPLY" : "BLOCK_CHANGE",
           payload: buttonData.action,
         });
       }}
@@ -62,7 +61,6 @@ export const ToolbarButton = ({
         hover,
         isActive
       )}
-      {...props}
     >
       {
         <span

@@ -1,4 +1,5 @@
 import { ToolbarButtonInput, ToolbarDefaultsType } from "../types";
+import { DefaultColors } from "./stylesDefaults";
 
 export const defaultToolbarButtons: ToolbarButtonInput[] = [
   {
@@ -32,6 +33,34 @@ export const defaultToolbarButtons: ToolbarButtonInput[] = [
     type: "inline",
   },
   {
+    tooltip: "Rouge",
+    action: "COLOR__1",
+    icon: "ri-checkbox-blank-fill",
+    type: "inline",
+    otherProps: { style: { color: DefaultColors.COLOR__1.color } },
+  },
+  {
+    tooltip: "Vert",
+    action: "COLOR__2",
+    icon: "ri-checkbox-blank-fill",
+    type: "inline",
+    otherProps: { style: { color: DefaultColors.COLOR__2.color } },
+  },
+  {
+    tooltip: "Bleu",
+    action: "COLOR__3",
+    icon: "ri-checkbox-blank-fill",
+    type: "inline",
+    otherProps: { style: { color: DefaultColors.COLOR__3.color } },
+  },
+  {
+    tooltip: "Jaune",
+    action: "COLOR__4",
+    icon: "ri-checkbox-blank-fill",
+    type: "inline",
+    otherProps: { style: { color: DefaultColors.COLOR__4.color } },
+  },
+  {
     tooltip: "titre 1",
     action: "header-one",
     icon: "ri-h-1",
@@ -54,7 +83,7 @@ export const defaultToolbarButtons: ToolbarButtonInput[] = [
     action: "header-four",
     icon: "ri-h-4",
     type: "block",
-  }
+  },
 ];
 export const ToolbarDefaults: ToolbarDefaultsType = {
   buttons: defaultToolbarButtons,

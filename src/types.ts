@@ -1,5 +1,5 @@
-import { EditorState, EditorProps, DraftStyleMap, BlockMap } from "draft-js";
-import { ButtonHTMLAttributes, ReactNode, HTMLAttributes, Props } from "react";
+import { EditorState, EditorProps, DraftStyleMap } from "draft-js";
+import { ButtonHTMLAttributes, ReactNode, HTMLAttributes } from "react";
 import { List } from "immutable";
 // defaults
 
@@ -22,6 +22,7 @@ export type BlockStyles = List<BlockStyle>;
 export interface EditorDefaultsType {
   spellCheckEnabled: boolean;
   keymapLayout: LayoutByCommand;
+  toolbarVariant: string;
 }
 
 export interface ToolbarDefaultsType {
@@ -31,7 +32,7 @@ export interface ToolbarDefaultsType {
 export interface StylesDefaultsType {
   blockStyles: BlockStyles;
   defaultColors: DraftStyleMap;
-  defaultFontSizes: DraftStyleMap;
+  defaultFontSizes: number[];
 }
 export interface DefaultsType {
   toolbar: ToolbarDefaultsType;
@@ -59,6 +60,9 @@ export interface DivProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
 
+export interface AProps extends HTMLAttributes<HTMLAnchorElement> {
+  children?: ReactNode;
+}
 // editor
 
 export interface SomeEditorState {
@@ -99,11 +103,24 @@ export interface ToolbarProps {
   someEditorState: SomeEditorState;
 }
 
-export interface FontSizeSelectProps extends DivProps {
-  dispatch: React.Dispatch<PecanActionsTypes>;
-  someEditorState: SomeEditorState;
-  selectData: number[];
+
+export interface DropDownProps extends DivProps {
+  hideOnLeave?: Boolean;
+  trigger: ButtonProps;
+  contentWidth?: string;
+  contentHeight?: string;
 }
+
+export interface DropDownItemProps extends AProps {
+  onSelected: (value: any) => any;
+  value: any;
+}
+
+// export interface ToolbarDropDownProps extends DropDownProps {
+//   dispatch: React.Dispatch<PecanActionsTypes>;
+//   someEditorState: SomeEditorState;
+//   selectData: number[];
+// }
 
 // hooks
 export interface PecanContextProps {

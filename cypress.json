@@ -4,6 +4,6 @@
     "componentFolder": "src",
     "testFiles": "**/*spec.{js,jsx,ts,tsx}",
     "viewportHeight": 300,
-    "viewportWidth": 600
+    "viewportWidth": 800
   }
 }
