@@ -61,12 +61,67 @@ describe("click toolbar effects", () => {
     cy.rooteditor().type("{ctrl+-}{ctrl+-}");
     cy.get(".dropdown-trigger>button").should("have.text", 12); //deafautl empty block
   });
-  it.only("test click change fontsize and do not deelect", () => {
+  it("test click change fontsize and do not deelect", () => {
     cy.rooteditor().type("ab{selectAll}");
-    cy.get(".dropdown").click().get(".dropdown-item:first").click();
+    cy.get('.dropdown:contains("13")').within(() => {
+      return cy
+        .get(".dropdown-trigger")
+        .click()
+        .get(".dropdown-item:first")
+        .click();
+    });
+
     cy.rooteditor()
-    .get('span:contains("ab"):first')
-    .should("have.attr", "style", "font-size: 0.3em;");
+      .get('span:contains("ab")')
+      .should("have.attr", "style", "font-size: 0.3em;");
     cy.get(".dropdown-trigger>button").should("have.text", 3); //deafautl empty block
+  });
+  it("check color  with #color is shown in ColorDropDown", () => {
+    cy.rooteditor().type("aa");
+    cy.get("span.icon:has(.ri-input-method-line):first").as("triggercolor");
+    cy.get("@triggercolor").should(
+      "have.attr",
+      "style",
+      "color: rgb(68, 68, 68);"
+    ); //deafautl empty block
+
+    cy.get(".dropdown:has(.ri-input-method-line)")
+      .click()
+      .within(() => cy.get(".dropdown-item:nth(5)").click());
+    cy.get("@triggercolor").should(
+      "have.attr",
+      "style",
+      "color: rgb(0, 0, 255);"
+    );
+    cy.get(".pecan-unstyled").type("bb");
+    cy.get('span:contains("bb")').should(
+      "have.attr",
+      "style",
+      "color: rgb(0, 0, 255);"
+    );
+  });
+  it.only("check color  with color__1 style is shown in ColorDropDown", () => {
+    cy.rooteditor().type("aa");
+    cy.get("span.icon:has(.ri-input-method-line):first").as("triggercolor");
+    cy.get("@triggercolor").should(
+      "have.attr",
+      "style",
+      "color: rgb(68, 68, 68);"
+    ); //deafautl empty block
+
+    cy.get(".dropdown:has(.ri-input-method-line)")
+      .click()
+      .within(() => cy.get(".dropdown-item:first").click());
+    cy.get("@triggercolor").should(
+      "have.attr",
+      "style",
+      "color: rgb(255, 56, 96);"
+    );
+    cy.get(".pecan-unstyled").type("bb");
+    cy.get('span:contains("bb")').should(
+      "have.attr",
+      "style",
+      "color: rgb(255, 56, 96);"
+    );
   });
 });

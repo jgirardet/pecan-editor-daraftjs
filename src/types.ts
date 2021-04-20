@@ -69,6 +69,7 @@ export interface SomeEditorState {
   inlineStyles: string[];
   blockType: string;
   activeFontSize: number;
+  activeColor: string;
 }
 
 export interface EditorAreaProps {
@@ -103,7 +104,6 @@ export interface ToolbarProps {
   someEditorState: SomeEditorState;
 }
 
-
 export interface DropDownProps extends DivProps {
   hideOnLeave?: Boolean;
   trigger: ButtonProps;
@@ -116,6 +116,9 @@ export interface DropDownItemProps extends AProps {
   value: any;
 }
 
+export interface ColorDropDownProps {
+  colorStyle: string;
+}
 // export interface ToolbarDropDownProps extends DropDownProps {
 //   dispatch: React.Dispatch<PecanActionsTypes>;
 //   someEditorState: SomeEditorState;

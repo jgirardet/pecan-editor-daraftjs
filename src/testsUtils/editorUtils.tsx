@@ -39,6 +39,7 @@ export const emptySomeEditorState: SomeEditorState = {
   inlineStyles: [],
   blockType: "",
   activeFontSize: 1.3,
+  activeColor: "COLOR__#444444",
 };
 
 export function emToPx(em: string) {

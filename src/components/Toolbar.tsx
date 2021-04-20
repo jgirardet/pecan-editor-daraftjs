@@ -1,5 +1,6 @@
-import React from "react";
+import React, {  useMemo } from "react";
 import { ToolbarProps } from "../types";
+import { ColorDropDown } from "./ColorDropDown";
 import { FontSizeDropDown } from "./FontSizeDropDown";
 import { ToolbarButton } from "./ToolbarButton";
 
@@ -9,8 +10,13 @@ export const Toolbar = ({
   config,
   someEditorState,
 }: ToolbarProps): JSX.Element => {
+  const { activeColor } = someEditorState;
   const buttons = config.toolbar.buttons;
   const buttonSize = config.editor.toolbarVariant;
+  const colorDropDown = useMemo(
+    () => <ColorDropDown colorStyle={activeColor} />,
+    [activeColor]
+  );
   return (
     <div className="level is-mobile is-justify-content-start">
       {buttons.map((b) => (
@@ -24,6 +30,7 @@ export const Toolbar = ({
           />
         </div>
       ))}
+      {colorDropDown}
       <FontSizeDropDown />
     </div>
   );

@@ -1,6 +1,7 @@
 import { mount } from "@cypress/react";
 import React from "react";
 import { PecanProvider } from "../../hooks/pecan_context";
+import { ColorDropDown } from "../ColorDropDown";
 import { DropDown } from "../DropDown";
 import { FontSizeDropDown } from "../FontSizeDropDown";
 
@@ -59,5 +60,18 @@ describe("DropDownFontSize", () => {
   });
   it("base", () => {
     cy.get(".dropdown-trigger>button").should("have.text", 13); //deafautl empty block
+  });
+});
+
+describe("DropDownColor", () => {
+  beforeEach(() => {
+    mount(
+      <PecanProvider>
+        <ColorDropDown colorStyle="COLOR__1" />
+      </PecanProvider>
+    );
+  });
+  it("base", () => {
+    cy.get(".icon").should("have.attr", "style", "color: rgb(255, 56, 96);"); //deafautl empty block
   });
 });

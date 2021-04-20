@@ -14,7 +14,7 @@ describe("test applyformatting", () => {
     "ITALIC",
     "COLOR__1",
     "COLOR__2",
-    "COLOR__#234242",
+    "COLOR__#23Aa242",
     "FONTSIZE__3.2",
   ];
   commands.forEach((x) =>
@@ -36,6 +36,7 @@ describe("test RE_STYLe regex", () => {
     { val: "COLOR__AZ1", res: true },
     { val: "COLOR__#234342", res: true },
     { val: "COLOR__2.3", res: true },
+    { val: "COLOR__#0000ff", res: true },
   ].forEach((x) =>
     it(`test ${x.val}`, () => {
       expect(RE_STYLE.test(x.val)).equals(x.res);

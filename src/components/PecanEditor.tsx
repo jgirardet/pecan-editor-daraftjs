@@ -5,6 +5,7 @@ import { PecanContext, PecanProvider } from "../hooks/pecan_context";
 import { EditorArea } from "./EditorArea";
 import { PecanEditorProps, SomeEditorState } from "../types";
 import {
+  findInlineBlockColor,
   findInlineBlockFontSize,
 } from "../api/draftutils";
 import { fontsize } from "../api/fontsize";
@@ -19,6 +20,7 @@ export const BaseEditor = (): JSX.Element => {
     activeFontSize: fontsize(
       findInlineBlockFontSize(editorState, config.styles.blockStyles)
     ).float,
+    activeColor: findInlineBlockColor(editorState, config.styles.blockStyles),
   };
   return (
     <>

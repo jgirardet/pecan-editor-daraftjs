@@ -39,6 +39,14 @@ export function getCustomStyleFn() {
     if (size) {
       res = res.set("fontSize", size.split("__")[1] + "em");
     }
+    const color = style.find((v) => {
+      if (v?.startsWith("COLOR__#")) {
+        return true;
+      } else return false;
+    });
+    if (color) {
+      res = res.set("color", color.split("__")[1]);
+    }
     return res.toJS();
   };
 }

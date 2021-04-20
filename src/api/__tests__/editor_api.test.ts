@@ -15,5 +15,20 @@ describe("test customStyleFn", () => {
     const res = customStyleFn(size as DraftInlineStyle, block);
     expect(res).deep.equal({});
   });
+  it("get color  corret", () => {
+    const color = OrderedSet(["COLOR__#123456"]);
+    const res = customStyleFn(color as DraftInlineStyle, block);
+    expect(res).deep.equal({ color: "#123456" });
+  });
+  it("get no color  if color shortcurt", () => {
+    const color = OrderedSet(["COLOR__1"]);
+    const res = customStyleFn(color as DraftInlineStyle, block);
+    expect(res).deep.equal({});
+  });
+  it("get color bad speeling (one underscore missing)", () => {
+    const color = OrderedSet(["COLOR_2.3"]);
+    const res = customStyleFn(color as DraftInlineStyle, block);
+    expect(res).deep.equal({});
+  });
 });
 export {};

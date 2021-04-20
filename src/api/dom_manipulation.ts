@@ -25,15 +25,15 @@ export function cssObjToString(style: BlockStyle): string {
   );
 }
 
-
-// // applyStyles(blockStyles);
-// console.log(document.styleSheets);
-// const sh = [...document.styleSheets].filter((x) => {
-//   return [...x.cssRules].some((r) => {
-//     if (r.cssText.startsWith("#pecan-editor-css")) {
-//       return true;
-//     }
-//   });
-// })[0];
-// sh.insertRule(".pecan-titre1 {color: red;}");
-// // console.log(fzef);
+export function getCssClassAttribute(
+  classname: string,
+  attr: string
+): string | undefined {
+  const sh = getPecanStyleSheet();
+  const cls = ([...sh.cssRules] as CSSStyleRule[]).filter(
+    (x) => x.selectorText === classname
+  )[0];
+  if (cls !== undefined) {
+    return { ...cls.style }[attr] as string;
+  }
+}

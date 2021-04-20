@@ -17,6 +17,6 @@ describe("toolbar ", () => {
         />
       </PecanProvider>
     );
-    cy.get("button").should("have.length", 14);
+    cy.get("button").should("have.length", 11);
   });
 });

@@ -5,6 +5,7 @@ specific draftjs api utilities
 import { ContentState, DraftInlineStyle } from "draft-js";
 import { CharacterMetadata, EditorState, ContentBlock } from "draft-js";
 import { BlockStyles } from "../types";
+import { Color } from "./color";
 import { FontSize } from "./fontsize";
 
 /*
@@ -106,20 +107,18 @@ export function findInlineBlockSyle(
     key: string
   ) => string
 ) {
-  let style: string = findInlineStyle(
-    state,
-    inlinePredicate
-    // (val) =>    val!.startsWith("FONTSIZE")
-  );
+  let style: string = findInlineStyle(state, inlinePredicate);
   if (!style) {
     const sel = state.getSelection();
     const key = sel.getAnchorKey();
     style = blockPredicate(state, blockStyles, key);
-    // style = FontSize.fromBlock(state, config.styles.blockStyles).toStyle()
   }
   return style;
 }
 
+/*
+finds fontSize in inline styles then in block
+*/
 export function findInlineBlockFontSize(
   state: EditorState,
   blockStyles: BlockStyles
@@ -131,6 +130,24 @@ export function findInlineBlockFontSize(
     (state, blockStyles, key) => {
       const fontsize = FontSize.fromBlock(state, blockStyles, key);
       return fontsize ? fontsize.toStyle() : "";
+    }
+  );
+}
+
+/*
+finds color in inline styles then in block
+*/
+export function findInlineBlockColor(
+  state: EditorState,
+  blockStyles: BlockStyles
+) {
+  return findInlineBlockSyle(
+    state,
+    (val) => val!.startsWith("COLOR"),
+    blockStyles,
+    (state, blockStyles, key) => {
+      const colored = Color.fromBlock(state, blockStyles, key);
+      return colored ? colored.toStyle() : "";
     }
   );
 }

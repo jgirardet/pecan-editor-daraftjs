@@ -8,7 +8,7 @@
 - [ ] clear inline styles
 
 # Toolbar 
-- [ ] 4 colors
+- [x] 4 colors
 - [ ] color picker
 - [x] fontSize
 - [ ] spellcheck 
@@ -34,7 +34,7 @@
 
 - [x] deplacer blockstylefn
 - [x] utilser customstylefn fontsize
-- [ ] utilser customstylefn customcolor
+- [x] utilser customstylefn customcolor
 - [ ] gerer config/default
 - [ ] loader la config
 - [ ] changer APPLY to FORMAT et peut être d'autrs
