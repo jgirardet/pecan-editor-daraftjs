@@ -7,7 +7,7 @@ import { CharacterMetadata } from "draft-js";
 import { findInlineBlockFontSize, mapSelectedCharacters } from "./draftutils";
 import { DefaultsType } from "../types";
 import { FontSize, fontsize } from "./fontsize";
-
+import { OrderedSet } from "immutable";
 export const RE_STYLE = RegExp("^[A-Z]+__[.#a-zA-Z0-9]+$"); // match custom styles
 
 const LOOP_HEADER = [
@@ -33,6 +33,7 @@ export function applyFormatting(
   // );
   if (STYLE_COMMANDS.includes(command))
     return RichUtils.toggleInlineStyle(state, command);
+  else if (command === "CLEAR_FORMAT") return clearFormat(state);
   else if (RE_STYLE.test(command)) return switchStyle(state, command);
   return state;
 }
@@ -135,3 +136,18 @@ export const isFormatCommand = (command: string): boolean => {
     BLOCK_COMMANDS.includes(command)
   );
 };
+
+export function clearFormat(state: EditorState): EditorState {
+  const sel = state.getSelection();
+  if (sel.isCollapsed())
+    return EditorState.setInlineStyleOverride(state, OrderedSet());
+  else {
+    const newContent = mapSelectedCharacters((c) => {
+      return c
+        .getStyle()
+        .toArray()
+        .reduce((prev, style) => CharacterMetadata.removeStyle(prev, style), c);
+    }, state);
+    return EditorState.push(state, newContent, "change-inline-style");
+  }
+}

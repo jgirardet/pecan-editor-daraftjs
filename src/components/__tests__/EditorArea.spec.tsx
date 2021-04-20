@@ -97,6 +97,17 @@ describe("Editor Area keymaps", () => {
       .type("{ctrl+-}")
       .should("have.attr", "style", "font-size: 1.2em;");
   });
+  it("clear format vi keymap", () => {
+    cy.rooteditor()
+      .type("{ctrl+b}")
+      .type("ab")
+      .get("span")
+      .should("have.attr", "style", "font-weight: bold;");
+    cy.rooteditor()
+      .type("{selectAll}{ctrl+,}")
+      .get("span")
+      .should("have.attr", "style", "");
+  });
 });
 
 describe("test blockformatting", () => {

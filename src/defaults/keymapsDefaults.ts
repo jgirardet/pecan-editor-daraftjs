@@ -22,6 +22,7 @@ const DefaultLayoutCommand: LayoutByCommand = {
     modifiers: "ctrl",
     key: "m",
   },
+  CLEAR_FORMAT: { modifiers: "ctrl", key: "," },
   EXPOSANT: { modifiers: "ctrl", key: "d" },
   INDICE: {
     modifiers: "ctrl",

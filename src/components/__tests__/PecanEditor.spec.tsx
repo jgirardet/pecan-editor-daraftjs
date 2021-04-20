@@ -100,7 +100,7 @@ describe("click toolbar effects", () => {
       "color: rgb(0, 0, 255);"
     );
   });
-  it.only("check color  with color__1 style is shown in ColorDropDown", () => {
+  it("check color  with color__1 style is shown in ColorDropDown", () => {
     cy.rooteditor().type("aa");
     cy.get("span.icon:has(.ri-input-method-line):first").as("triggercolor");
     cy.get("@triggercolor").should(
@@ -123,5 +123,18 @@ describe("click toolbar effects", () => {
       "style",
       "color: rgb(255, 56, 96);"
     );
+  });
+  it("clear format", () => {
+    cy.rooteditor()
+      .type("{ctrl+b}")
+      .type("ab")
+      .get('span:contains("ab")').as("target")
+      .should("have.attr", "style", "font-weight: bold;");
+    cy.rooteditor()
+      .type("{selectAll}")
+      .get(".ri-format-clear")
+      .click()
+      .get("@target")
+      .should("have.attr", "style", "");
   });
 });

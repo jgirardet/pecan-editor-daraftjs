@@ -5,12 +5,13 @@
 - [ ] indice
 - [ ] custom color
 - [x] toggle si style identique
-- [ ] clear inline styles
+- [x] clear inline styles
 
 # Toolbar 
 - [x] 4 colors
 - [ ] color picker
 - [x] fontSize
+- [x] clear inline style 
 - [ ] spellcheck 
 # commands/keymaps
 

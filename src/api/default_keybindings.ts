@@ -51,11 +51,13 @@ export function getKeyBindingFactory(layout: LayoutByCommand) {
     } else if (hasNoModifier(e)) {
       res = formatted.noModifier[key];
     }
+    console.log(res);
     if (res) {
       e.preventDefault();
       return res;
-    } else return getDefaultKeyBinding(e);
+    }
+    else return getDefaultKeyBinding(e);
   };
 }
 
-    // null; 
+// null;

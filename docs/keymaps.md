@@ -13,6 +13,7 @@ PecanEditor Keymaps. Items in **bold** are overrinding default draft-js keymaps.
 | color 2         | color_2         | ctrl+k       | ctrl+s       |
 | color 3         | color_3         | ctrl+l       | ctrl+r       |
 | color 4         | color_4         | **ctrl+m**   | ctrl+n       |
+| clear format    | CLEAR_FORMAT    | ctrl+,       | ctrl+,       |
 | exposant        | exposant        | **ctrl+d**   | **ctrl+d**   |
 | indice          | indice          | ctrl+o       | ctrl+l       |
 | increase font   | increase-font   | ctrl++       | ctrl++       |

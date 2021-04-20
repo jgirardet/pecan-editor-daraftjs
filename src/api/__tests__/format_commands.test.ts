@@ -116,3 +116,25 @@ describe("test cssObjToString", () => {
     );
   });
 });
+
+describe("clear format command when text selected", () => {
+  it("remove the same if  applied if selected", () => {
+    const ed = createEditorStateWithText("ab");
+    const ed1 = setEditorSelection(ed, 0, 2);
+    const ed2 = RichUtils.toggleInlineStyle(ed1, "COLOR__1");
+    const ed4 = RichUtils.toggleInlineStyle(ed2, "BOLD");
+    const ed5 = applyFormatting(ed4, "CLEAR_FORMAT");
+    expect(
+        getAllChars(ed5.getCurrentContent()).every(
+            (c) => c!.getStyle().size === 0
+          )
+        ).true;
+      });
+      it('test clear overrideinline style', () => {
+        const ed = createEditorStateWithText("ab");
+        const ed1 = RichUtils.toggleInlineStyle(ed,"BOLD")
+        const ed2 = applyFormatting(ed1, "CLEAR_FORMAT")
+        expect(ed2.getInlineStyleOverride().size).equal(0)
+        
+      });
+});

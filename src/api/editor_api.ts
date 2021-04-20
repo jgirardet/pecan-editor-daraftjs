@@ -57,7 +57,7 @@ export function getHandleKeyCommand(
 ) {
   return (command: string): DraftHandleValue => {
     console.log("handleKeyCommand :", command);
-    if (STYLE_COMMANDS.includes(command) || RE_STYLE.test(command)) {
+    if (STYLE_COMMANDS.includes(command) || RE_STYLE.test(command) || command==="CLEAR_FORMAT") {
       dispatch({ type: "APPLY", payload: command });
     } else if (command === "loop-header") {
       dispatch({ type: "BLOCK_CHANGE", payload: command });

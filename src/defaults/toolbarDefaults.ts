@@ -1,5 +1,4 @@
 import { ToolbarButtonInput, ToolbarDefaultsType } from "../types";
-import { DefaultColors } from "./stylesDefaults";
 
 export const defaultToolbarButtons: ToolbarButtonInput[] = [
   {
@@ -30,6 +29,12 @@ export const defaultToolbarButtons: ToolbarButtonInput[] = [
     tooltip: "Code",
     action: "CODE",
     icon: "ri-code-fill",
+    type: "inline",
+  },
+  {
+    tooltip: "Effacer le formattage",
+    action: "CLEAR_FORMAT",
+    icon: "ri-format-clear",
     type: "inline",
   },
   {
