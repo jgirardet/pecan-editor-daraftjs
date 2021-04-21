@@ -3,16 +3,18 @@
 - [x] fontsize
 - [ ] exposant
 - [ ] indice
-- [ ] custom color
+- [x] custom color
 - [x] toggle si style identique
 - [x] clear inline styles
 
-# Toolbar 
+# Toolbar
+
 - [x] 4 colors
-- [ ] color picker
+- [x] color picker
 - [x] fontSize
-- [x] clear inline style 
-- [ ] spellcheck 
+- [x] clear inline style
+- [ ] spellcheck
+
 # commands/keymaps
 
 - [ ] exposant
@@ -36,6 +38,7 @@
 - [x] deplacer blockstylefn
 - [x] utilser customstylefn fontsize
 - [x] utilser customstylefn customcolor
+- [x] memoiser la toolbar
 - [ ] gerer config/default
 - [ ] loader la config
 - [ ] changer APPLY to FORMAT et peut être d'autrs
