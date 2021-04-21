@@ -1,15 +1,14 @@
 import { mount } from "@cypress/react";
-import { each } from "cypress/types/jquery";
 import { EditorState } from "draft-js";
-import { useReducer, useState } from "react";
+import { useReducer } from "react";
 import { Defaults } from "../../defaults";
-import { pecanReduer } from "../../hooks/pecan_reducer";
+import { pecanReducer } from "../../hooks/pecan_reducer";
 import { EditorArea } from "../EditorArea";
 import { emToPx } from "../../testsUtils/editorUtils";
 import { inlinestyles } from "../../testsUtils/samples";
 const FakeEditorArea = () => {
   const [state, dispatch] = useReducer(
-    pecanReduer,
+    pecanReducer,
     EditorState.createEmpty(),
     undefined
   );

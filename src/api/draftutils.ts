@@ -2,11 +2,11 @@
 specific draftjs api utilities 
 */
 
-import { ContentState, DraftInlineStyle } from "draft-js";
+import { ContentState, DraftInlineStyle, RichUtils } from "draft-js";
 import { CharacterMetadata, EditorState, ContentBlock } from "draft-js";
-import { BlockStyles } from "../types";
+import { BlockStyles, DefaultsType, SharedState } from "../types";
 import { Color } from "./color";
-import { FontSize } from "./fontsize";
+import { fontsize, FontSize } from "./fontsize";
 
 /*
 Iterate over each choracted and apply cllback to each
@@ -150,4 +150,21 @@ export function findInlineBlockColor(
       return colored ? colored.toStyle() : "";
     }
   );
+}
+
+/*
+getSharedState
+*/
+export function getSharedState(
+  state: EditorState,
+  config: DefaultsType
+): SharedState {
+  return {
+    inlineStyles: state.getCurrentInlineStyle().toArray(),
+    blockType: RichUtils.getCurrentBlockType(state),
+    activeFontSize: fontsize(
+      findInlineBlockFontSize(state, config.styles.blockStyles)
+    ).float,
+    activeColor: findInlineBlockColor(state, config.styles.blockStyles),
+  };
 }

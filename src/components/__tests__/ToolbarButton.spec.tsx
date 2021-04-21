@@ -4,7 +4,7 @@ import React from "react";
 import { mount, unmount } from "@cypress/react";
 import { Defaults } from "../../defaults";
 import { ToolbarButton } from "../ToolbarButton";
-import { emptySomeEditorState } from "../../testsUtils/editorUtils";
+import { emptySharedState } from "../../testsUtils/editorUtils";
 
 const buttons = Defaults.toolbar.buttons;
 
@@ -17,8 +17,9 @@ describe("ToolbarButtons", () => {
     mount(
       <ToolbarButton
         buttonData={bold}
-        handler={() => {}}
-        someEditorState={emptySomeEditorState}
+        dispatch={() => {}}
+        sharedState={emptySharedState}
+        config={Defaults}
       />
     );
   });
@@ -27,8 +28,9 @@ describe("ToolbarButtons", () => {
     mount(
       <ToolbarButton
         buttonData={{ action: "_", type: "inline" }}
-        handler={() => {}}
-        someEditorState={emptySomeEditorState}
+        dispatch={() => {}}
+        sharedState={emptySharedState}
+        config={Defaults}
       />
     );
     cy.get("span").should("have.class", "icon ri-error-warning-fill");
@@ -51,23 +53,34 @@ describe("ToolbarButtons", () => {
   });
 
   [
-    { blocktype: "inline", command: "APPLY", button:bold, payload:"BOLD"},
-    { blocktype: "block", command: "BLOCK_CHANGE", button:h1, payload:"header-one" },
+    { blocktype: "inline", command: "APPLY", button: bold, payload: "BOLD" },
+    {
+      blocktype: "block",
+      command: "BLOCK_CHANGE",
+      button: h1,
+      payload: "header-one",
+    },
   ].forEach((genre) =>
-    it("click fire action "+genre.blocktype, () => {
+    it("click fire action " + genre.blocktype, () => {
       const spy = cy.spy().as("click");
       unmount();
       mount(
         <ToolbarButton
           buttonData={genre.button}
-          handler={spy}
-          someEditorState={{ blockType: genre.blocktype, inlineStyles: [], activeFontSize:2.3 }}
+          dispatch={spy}
+          sharedState={{
+            blockType: genre.blocktype,
+            inlineStyles: [],
+            activeFontSize: 2.3,
+            activeColor: "COLOR__1",
+          }}
+          config={Defaults}
         />
       );
       cy.get("button").click();
       cy.get("@click").should("be.calledWith", {
         type: genre.command,
-        payload: genre.payload
+        payload: genre.payload,
       });
     })
   );
@@ -78,8 +91,13 @@ describe("ToolbarButtons", () => {
     mount(
       <ToolbarButton
         buttonData={bold}
-        handler={(x) => {}}
-        someEditorState={{ inlineStyles: ["BOLD"], blockType: "" }}
+        dispatch={(x) => {}}
+        sharedState={{
+          ...emptySharedState,
+          inlineStyles: ["BOLD"],
+          blockType: "",
+        }}
+        config={Defaults}
       />
     );
     cy.get("button").should("have.have.class", "has-text-info");
@@ -90,8 +108,13 @@ describe("ToolbarButtons", () => {
     mount(
       <ToolbarButton
         buttonData={h1}
-        handler={(x) => {}}
-        someEditorState={{ inlineStyles: [], blockType: "header-one" }}
+        dispatch={(x) => {}}
+        sharedState={{
+          ...emptySharedState,
+          inlineStyles: [],
+          blockType: "header-one",
+        }}
+        config={Defaults}
       />
     );
     cy.get("button").should("have.have.class", "has-text-info");

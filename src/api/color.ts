@@ -8,7 +8,7 @@ export const color = (val: string | ColorParse) => new Color(val);
 export class Color {
   _color: ColorParse | undefined;
   constructor(val: ColorParse | string) {
-        if (typeof val === "string" && val.startsWith("COLOR__"))
+    if (typeof val === "string" && val.startsWith("COLOR__"))
       this._color = this.parseStyle(val);
     else if (typeof val === "string") this._color = parseColor(val);
     else this._color = val;

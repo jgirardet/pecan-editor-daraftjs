@@ -1,18 +1,18 @@
 import classnames from "classnames";
-import React, { useContext } from "react";
-import { color, Color } from "../api/color";
-import { findInlineBlockColor } from "../api/draftutils";
+import { color } from "../api/color";
 import { mostUsualColors } from "../defaults/stylesDefaults";
-import { PecanContext } from "../hooks/pecan_context";
-import { ColorDropDownProps } from "../types";
+import { ToolbarProps } from "../types";
 import { DropDown, DropDownItem } from "./DropDown";
 
-export function ColorDropDown({ colorStyle }: ColorDropDownProps): JSX.Element {
-  const { editorState, dispatch, config } = useContext(PecanContext);
-  // const colorStyle = findInlineBlockColor(editorState, config.styles.blockStyles)
-  const activeColor = colorStyle.startsWith("COLOR__#")
-    ? color(findInlineBlockColor(editorState, config.styles.blockStyles)).hex
-    : config.styles.defaultColors[colorStyle].color;
+export function ColorDropDown({
+  config,
+  sharedState,
+  dispatch,
+}: ToolbarProps): JSX.Element {
+  const { activeColor } = sharedState;
+  const cssColor = activeColor.startsWith("COLOR__#")
+    ? color(activeColor).hex
+    : config.styles.defaultColors[activeColor].color;
   const fontSizeLevel = 5;
   const fontSize = "is-size-" + fontSizeLevel;
   const icone = <i className="ri-input-method-line"></i>;
@@ -20,7 +20,7 @@ export function ColorDropDown({ colorStyle }: ColorDropDownProps): JSX.Element {
     <button
       className={classnames("button", fontSize, config.editor.toolbarVariant)}
     >
-      <span className="icon" style={{ color: activeColor }}>
+      <span className="icon" style={{ color: cssColor }}>
         {icone}
       </span>
     </button>

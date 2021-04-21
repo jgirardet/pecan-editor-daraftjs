@@ -1,52 +1,33 @@
-import { useContext } from "react";
-import { RichUtils } from "draft-js";
+import { useCallback, useMemo, useReducer } from "react";
+import { EditorState } from "draft-js";
 import { Toolbar } from "./Toolbar";
-import { PecanContext, PecanProvider } from "../hooks/pecan_context";
 import { EditorArea } from "./EditorArea";
-import { PecanEditorProps, SomeEditorState } from "../types";
-import {
-  findInlineBlockColor,
-  findInlineBlockFontSize,
-} from "../api/draftutils";
-import { fontsize } from "../api/fontsize";
+import { DefaultsType, PecanActionsTypes, SharedState } from "../types";
+import { getSharedState } from "../api/draftutils";
+import { pecanReducer } from "../hooks/pecan_reducer";
+import { Defaults } from "../defaults";
 
-export const BaseEditor = (): JSX.Element => {
-  const { editorState, dispatch, config } = useContext(PecanContext);
-
-  // callbacks
-  const currentStyles: SomeEditorState = {
-    inlineStyles: editorState.getCurrentInlineStyle().toArray(),
-    blockType: RichUtils.getCurrentBlockType(editorState),
-    activeFontSize: fontsize(
-      findInlineBlockFontSize(editorState, config.styles.blockStyles)
-    ).float,
-    activeColor: findInlineBlockColor(editorState, config.styles.blockStyles),
-  };
+function getConfig(): DefaultsType {
+  return { ...Defaults };
+}
+export const PecanEditor = (): JSX.Element => {
+  const config = useMemo(getConfig, []);
+  const [editorState, _dispatch] = useReducer(
+    pecanReducer,
+    EditorState.createEmpty()
+  );
+  const dispatch = useCallback((action: PecanActionsTypes) => {
+    _dispatch(action);
+  }, []);
+  const sharedState: SharedState = getSharedState(editorState, config);
   return (
     <>
-      <Toolbar
-        dispatch={dispatch}
-        config={config}
-        someEditorState={currentStyles}
-      />
-
+      <Toolbar dispatch={dispatch} config={config} sharedState={sharedState} />
       <EditorArea
         editorState={editorState}
         dispatch={dispatch}
         config={config}
       />
     </>
-  );
-};
-
-export const PecanEditor = ({ initialState }: PecanEditorProps) => {
-  return (
-    <div className="block">
-      <PecanProvider initialState={initialState}>
-        <div>
-          <BaseEditor />
-        </div>
-      </PecanProvider>
-    </div>
   );
 };

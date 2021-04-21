@@ -6,7 +6,7 @@ import {
 } from "../api/format_commands";
 import { PecanActionsTypes } from "../types";
 
-export const pecanReduer = (
+export const pecanReducer = (
   state: EditorState,
   action: PecanActionsTypes
 ): EditorState => {

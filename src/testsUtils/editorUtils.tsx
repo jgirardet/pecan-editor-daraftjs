@@ -5,7 +5,7 @@ import {
   ContentState,
   CharacterMetadata,
 } from "draft-js";
-import { SomeEditorState } from "../types";
+import { SharedState } from "../types";
 
 export function setEditorSelection(
   state: EditorState,
@@ -35,7 +35,7 @@ export function getAllChars(content: ContentState): List<CharacterMetadata> {
     .reduce((acc, val) => acc!.push(...val!.toArray()), List());
 }
 
-export const emptySomeEditorState: SomeEditorState = {
+export const emptySharedState: SharedState = {
   inlineStyles: [],
   blockType: "",
   activeFontSize: 1.3,

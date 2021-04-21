@@ -1,16 +1,15 @@
-import { useContext } from "react";
-import { findInlineBlockFontSize } from "../api/draftutils";
-import { FontSize, fontsize } from "../api/fontsize";
-import { PecanContext } from "../hooks/pecan_context";
+import { FontSize } from "../api/fontsize";
 import { OrderedSet } from "immutable";
 import { DropDown, DropDownItem } from "./DropDown";
 import classNames from "classnames";
+import { ToolbarProps } from "../types";
 
-export function FontSizeDropDown(): JSX.Element {
-  const { editorState, dispatch, config } = useContext(PecanContext);
-  const activeFontSize = fontsize(
-    findInlineBlockFontSize(editorState, config.styles.blockStyles)
-  ).float;
+export function FontSizeDropDown({
+  sharedState,
+  dispatch,
+  config,
+}: ToolbarProps): JSX.Element {
+  const { activeFontSize } = sharedState;
   const fontSizeLevel = 5;
   const fontSize = "is-size-" + fontSizeLevel;
   const trigger = (

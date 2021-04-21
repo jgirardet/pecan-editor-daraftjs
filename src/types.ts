@@ -65,20 +65,22 @@ export interface AProps extends HTMLAttributes<HTMLAnchorElement> {
 }
 // editor
 
-export interface SomeEditorState {
+export interface SharedState {
   inlineStyles: string[];
   blockType: string;
   activeFontSize: number;
   activeColor: string;
 }
 
-export interface EditorAreaProps {
+export interface EditorChildProps extends DivProps {
   config: DefaultsType;
-  dispatch: React.Dispatch<PecanActionsTypes>;
+  dispatch: PecanDispatch;
   editorState: EditorState;
-  className?: string;
-  props?: EditorProps;
-  // onChange?: Function;
+  sharedState?: SharedState;
+}
+
+export interface EditorAreaProps extends EditorChildProps {
+  editorProps?: EditorProps;
 }
 
 export interface PecanEditorProps {
@@ -93,15 +95,13 @@ export interface ToolbarButtonInput {
   otherProps?: object;
 }
 
-export interface ToolbarButtonProps extends ButtonProps {
-  handler: ({ type, payload }: PecanActionsTypes) => void;
+export interface ToolbarButtonProps extends ButtonProps, ToolbarProps {
   buttonData: ToolbarButtonInput;
-  someEditorState: SomeEditorState;
 }
 export interface ToolbarProps {
-  dispatch: React.Dispatch<PecanActionsTypes>;
+  dispatch: PecanDispatch;
   config: DefaultsType;
-  someEditorState: SomeEditorState;
+  sharedState: SharedState;
 }
 
 export interface DropDownProps extends DivProps {
@@ -116,23 +116,16 @@ export interface DropDownItemProps extends AProps {
   value: any;
 }
 
-export interface ColorDropDownProps {
-  colorStyle: string;
-}
-// export interface ToolbarDropDownProps extends DropDownProps {
-//   dispatch: React.Dispatch<PecanActionsTypes>;
-//   someEditorState: SomeEditorState;
-//   selectData: number[];
-// }
-
 // hooks
 export interface PecanContextProps {
   editorState: EditorState;
-  dispatch: React.Dispatch<PecanActionsTypes>;
+  dispatch: PecanDispatch;
   config: DefaultsType;
 }
 
 export type PecanActions = "UPDATE" | "APPLY" | "BLOCK_CHANGE" | "FONT_CHANGE";
+
+export type PecanDispatch = React.Dispatch<PecanActionsTypes>;
 
 export interface PecanActionsType {
   type: PecanActions;

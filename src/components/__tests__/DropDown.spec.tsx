@@ -1,9 +1,10 @@
 import { mount } from "@cypress/react";
 import React from "react";
-import { PecanProvider } from "../../hooks/pecan_context";
+import { emptySharedState as sharedState } from "../../testsUtils/editorUtils";
 import { ColorDropDown } from "../ColorDropDown";
 import { DropDown } from "../DropDown";
 import { FontSizeDropDown } from "../FontSizeDropDown";
+import { Defaults as config } from "../../defaults";
 
 describe("dropdown", () => {
   beforeEach(() => {
@@ -53,9 +54,7 @@ describe("dropdown", () => {
 describe("DropDownFontSize", () => {
   beforeEach(() => {
     mount(
-      <PecanProvider>
-        <FontSizeDropDown />
-      </PecanProvider>
+      <FontSizeDropDown {...{ dispatch: () => {}, config, sharedState }} />
     );
   });
   it("base", () => {
@@ -65,13 +64,9 @@ describe("DropDownFontSize", () => {
 
 describe("DropDownColor", () => {
   beforeEach(() => {
-    mount(
-      <PecanProvider>
-        <ColorDropDown colorStyle="COLOR__1" />
-      </PecanProvider>
-    );
+    mount(<ColorDropDown {...{ dispatch: () => {}, config, sharedState }} />);
   });
   it("base", () => {
-    cy.get(".icon").should("have.attr", "style", "color: rgb(255, 56, 96);"); //deafautl empty block
+    cy.get(".icon").should("have.attr", "style", "color: rgb(68, 68, 68);"); //deafautl empty block
   });
 });
