@@ -1,8 +1,8 @@
 # Inline Style
 
 - [x] fontsize
-- [ ] exposant
-- [ ] indice
+- [x] exposant
+- [x] indice
 - [x] custom color
 - [x] toggle si style identique
 - [x] clear inline styles
@@ -17,8 +17,8 @@
 
 # commands/keymaps
 
-- [ ] exposant
-- [ ] indice
+- [x] exposant
+- [x] indice
 - [x] increase font
 - [x] decrease font
 - [ ] select word

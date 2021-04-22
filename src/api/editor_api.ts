@@ -9,6 +9,8 @@ import { DefaultsType, PecanActionsTypes } from "../types";
 import { RE_STYLE } from "./format_commands";
 
 import { Map } from "immutable";
+import { FontSize, fontsize } from "./fontsize";
+import { defaultBlockStyles } from "../defaults/stylesDefaults";
 
 export function getBlockStyleFn() {
   return (contentBlock: ContentBlock): string => {
@@ -31,6 +33,12 @@ export function getBlockStyleFn() {
 export function getCustomStyleFn() {
   return (style: DraftInlineStyle, block: ContentBlock) => {
     let res = Map<string, string>();
+    const blockType = block.getType();
+    const blockDefault = defaultBlockStyles
+      .filter((x) => x?.type === blockType)
+      .first().styles;
+
+    /* size*/
     const size = style.find((v) => {
       if (v?.startsWith("FONTSIZE__")) {
         return true;
@@ -39,13 +47,33 @@ export function getCustomStyleFn() {
     if (size) {
       res = res.set("fontSize", size.split("__")[1] + "em");
     }
-    const color = style.find((v) => {
+
+    /*color*/
+    const ccolor = style.find((v) => {
       if (v?.startsWith("COLOR__#")) {
         return true;
       } else return false;
     });
-    if (color) {
-      res = res.set("color", color.split("__")[1]);
+    if (ccolor) {
+      res = res.set("color", ccolor.split("__")[1]);
+    }
+
+    /* subscript superscript*/
+    const verticalAlign = style.find((v) => {
+      if (v?.startsWith("VERTICAL_ALIGN__")) {
+        return true;
+      } else return false;
+    });
+    if (verticalAlign) {
+      console.log(style.toArray());
+      const currentSize = size
+        ? fontsize(size)
+        : FontSize.fromEm(blockDefault["font-size"]!);
+      const verticalFontSize: string = (currentSize.float / 2).toFixed(1);
+      res = res.merge({
+        verticalAlign: verticalAlign.split("__")[1].toLowerCase(),
+        fontSize: verticalFontSize + "em",
+      });
     }
     return res.toJS();
   };
@@ -57,7 +85,11 @@ export function getHandleKeyCommand(
 ) {
   return (command: string): DraftHandleValue => {
     console.log("handleKeyCommand :", command);
-    if (STYLE_COMMANDS.includes(command) || RE_STYLE.test(command) || command==="CLEAR_FORMAT") {
+    if (
+      STYLE_COMMANDS.includes(command) ||
+      RE_STYLE.test(command) ||
+      command === "CLEAR_FORMAT"
+    ) {
       dispatch({ type: "APPLY", payload: command });
     } else if (command === "loop-header") {
       dispatch({ type: "BLOCK_CHANGE", payload: command });

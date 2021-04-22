@@ -16,6 +16,8 @@ describe("test applyformatting", () => {
     "COLOR__2",
     "COLOR__#23Aa242",
     "FONTSIZE__3.2",
+    "VERTICAL_ALIGN__SUB",
+    "VERTICAL_ALIGN__SUPER",
   ];
   commands.forEach((x) =>
     it(`applyFormatting: ${x} `, () => {
@@ -37,6 +39,7 @@ describe("test RE_STYLe regex", () => {
     { val: "COLOR__#234342", res: true },
     { val: "COLOR__2.3", res: true },
     { val: "COLOR__#0000ff", res: true },
+    { val: "VERTICAL_ALIGN__SUB", res: true },
   ].forEach((x) =>
     it(`test ${x.val}`, () => {
       expect(RE_STYLE.test(x.val)).equals(x.res);
@@ -125,16 +128,15 @@ describe("clear format command when text selected", () => {
     const ed4 = RichUtils.toggleInlineStyle(ed2, "BOLD");
     const ed5 = applyFormatting(ed4, "CLEAR_FORMAT");
     expect(
-        getAllChars(ed5.getCurrentContent()).every(
-            (c) => c!.getStyle().size === 0
-          )
-        ).true;
-      });
-      it('test clear overrideinline style', () => {
-        const ed = createEditorStateWithText("ab");
-        const ed1 = RichUtils.toggleInlineStyle(ed,"BOLD")
-        const ed2 = applyFormatting(ed1, "CLEAR_FORMAT")
-        expect(ed2.getInlineStyleOverride().size).equal(0)
-        
-      });
+      getAllChars(ed5.getCurrentContent()).every(
+        (c) => c!.getStyle().size === 0
+      )
+    ).true;
+  });
+  it("test clear overrideinline style", () => {
+    const ed = createEditorStateWithText("ab");
+    const ed1 = RichUtils.toggleInlineStyle(ed, "BOLD");
+    const ed2 = applyFormatting(ed1, "CLEAR_FORMAT");
+    expect(ed2.getInlineStyleOverride().size).equal(0);
+  });
 });

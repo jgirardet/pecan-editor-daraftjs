@@ -23,8 +23,8 @@ const DefaultLayoutCommand: LayoutByCommand = {
     key: "m",
   },
   CLEAR_FORMAT: { modifiers: "ctrl", key: "," },
-  EXPOSANT: { modifiers: "ctrl", key: "d" },
-  INDICE: {
+  VERTICAL_ALIGN__SUPER: { modifiers: "ctrl", key: "d" },
+  VERTICAL_ALIGN__SUB: {
     modifiers: "ctrl",
     key: "o",
   },
@@ -77,7 +77,7 @@ const BepoLayoutCommand: LayoutByCommand = {
       modifiers: "ctrl",
       key: "n",
     },
-    INDICE: {
+    VERTICAL_ALIGN__SUB: {
       modifiers: "ctrl",
       key: "l",
     },

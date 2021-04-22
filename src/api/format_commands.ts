@@ -8,7 +8,7 @@ import { findInlineBlockFontSize, mapSelectedCharacters } from "./draftutils";
 import { DefaultsType } from "../types";
 import { FontSize, fontsize } from "./fontsize";
 import { OrderedSet } from "immutable";
-export const RE_STYLE = RegExp("^[A-Z]+__[.#a-zA-Z0-9]+$"); // match custom styles
+export const RE_STYLE = RegExp("^[A-Z_]+__[.#a-zA-Z0-9]+$"); // match custom styles
 
 const LOOP_HEADER = [
   "header-one",
@@ -25,12 +25,6 @@ export function applyFormatting(
   state: EditorState,
   command: string
 ): EditorState {
-  // console.log(
-  //   "applyFormatting : ",
-  //   command,
-  //   "RE_STYLE:",
-  //   RE_STYLE.test(command)
-  // );
   if (STYLE_COMMANDS.includes(command))
     return RichUtils.toggleInlineStyle(state, command);
   else if (command === "CLEAR_FORMAT") return clearFormat(state);

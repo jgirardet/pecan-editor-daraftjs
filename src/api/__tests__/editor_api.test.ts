@@ -30,5 +30,15 @@ describe("test customStyleFn", () => {
     const res = customStyleFn(color as DraftInlineStyle, block);
     expect(res).deep.equal({});
   });
+  it("apply subscript default block size", () => {
+    const color = OrderedSet(["VERTICAL_ALIGN__SUB"]);
+    const res = customStyleFn(color as DraftInlineStyle, block);
+    expect(res).deep.equal({ verticalAlign: "sub", fontSize: "0.7em" });
+  });
+  it("apply subscript some other size", () => {
+    const color = OrderedSet(["VERTICAL_ALIGN__SUB", "FONTSIZE__3.4"]);
+    const res = customStyleFn(color as DraftInlineStyle, block);
+    expect(res).deep.equal({ verticalAlign: "sub", fontSize: "1.7em" });
+  });
 });
 export {};

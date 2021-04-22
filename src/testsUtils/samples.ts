@@ -64,4 +64,16 @@ export const inlinestyles = [
     key: "m",
     get: `[style="color: rgb(250, 173, 29);"]`,
   },
+  {
+    title: "color indice subscript",
+    key: "o",
+    selector: ".ri-subscript",
+    get: `[style="vertical-align: sub; font-size: 0.7em;"]`,
+  },
+  {
+    title: "color exposant superscript",
+    key: "d",
+    selector: ".ri-superscript",
+    get: `[style="vertical-align: super; font-size: 0.7em;"]`,
+  },
 ];

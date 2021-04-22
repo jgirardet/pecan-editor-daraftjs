@@ -14,6 +14,6 @@ describe("toolbar ", () => {
         sharedState={sharedState}
       />
     );
-    cy.get("button").should("have.length", 12);
+    cy.get("button").should("have.length", 14);
   });
 });

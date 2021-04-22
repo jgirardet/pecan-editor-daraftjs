@@ -32,6 +32,18 @@ export const defaultToolbarButtons: ToolbarButtonInput[] = [
     type: "inline",
   },
   {
+    tooltip: "Indice",
+    action: "VERTICAL_ALIGN__SUB",
+    icon: "ri-subscript",
+    type: "inline",
+  },
+  {
+    tooltip: "Exposant",
+    action: "VERTICAL_ALIGN__SUPER",
+    icon: "ri-superscript",
+    type: "inline",
+  },
+  {
     tooltip: "Effacer le formattage",
     action: "CLEAR_FORMAT",
     icon: "ri-format-clear",
