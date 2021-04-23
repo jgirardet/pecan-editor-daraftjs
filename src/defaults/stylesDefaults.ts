@@ -1,91 +1,66 @@
 import { DraftStyleMap } from "draft-js";
 import { BlockStyles, StylesDefaultsType } from "../types";
-import { List } from "immutable";
 
 export const defaultFontFamily = "verdana";
 
-export const defaultBlockStyles: BlockStyles = List([
-  {
-    selector: ".pecan-titre1",
-    type: "header-one",
-    styles: {
-      color: "#FF3860",
-      "text-decoration-line": "underline",
-      "text-decoration-style": "solid",
-      "text-decoration-color": "#FF3860",
-      "text-transform": "uppercase",
-      "font-size": "2.5em",
-      "font-weight": "500",
-      "font-family": defaultFontFamily,
-    },
+export const defaultBlockStyles: BlockStyles = {
+  "header-one": {
+    color: "#FF3860",
+    textDecorationLine: "underline",
+    textDecorationStyle: "solid",
+    textDecorationColor: "#FF3860",
+    textTransform: "uppercase",
+    fontSize: "2.5em",
+    fontWeight: 500,
+    fontFamily: defaultFontFamily,
   },
-  {
-    selector: ".pecan-titre2",
-    type: "header-two",
-
-    styles: {
-      color: "#15b168",
-      "text-decoration-line": "underline",
-      "text-decoration-style": "solid",
-      "text-decoration-color": "#15b168",
-      "text-transform": "capitalize",
-      "font-size": "2.3em",
-      "font-weight": "500",
-      "font-family": defaultFontFamily,
-    },
+  "header-two": {
+    color: "#15b168",
+    textDecorationLine: "underline",
+    textDecorationStyle: "solid",
+    textDecorationColor: "#15b168",
+    textTransform: "capitalize",
+    fontSize: "2.3em",
+    fontWeight: 500,
+    fontFamily: defaultFontFamily,
   },
-  {
-    selector: ".pecan-titre3",
-    type: "header-three",
-
-    styles: {
-      color: "#044cd3",
-      "text-decoration-line": "underline",
-      "text-decoration-style": "solid",
-      "text-decoration-color": "#044cd3",
-      "font-size": "2.1em",
-      "font-weight": "500",
-      "font-family": defaultFontFamily,
-    },
+  "header-three": {
+    color: "#044cd3",
+    textDecorationLine: "underline",
+    textDecorationStyle: "solid",
+    textDecorationColor: "#044cd3",
+    fontSize: "2.1em",
+    fontWeight: 500,
+    fontFamily: defaultFontFamily,
   },
-  {
-    selector: ".pecan-titre4",
-    type: "header-four",
-
-    styles: {
-      color: "#faad1d",
-      "text-decoration-line": "underline",
-      "text-decoration-style": "solid",
-      "text-decoration-color": "#faad1d",
-      "font-size": "1.9em",
-      "font-weight": "500",
-      "font-family": defaultFontFamily,
-    },
+  "header-four": {
+    color: "#faad1d",
+    textDecorationLine: "underline",
+    textDecorationStyle: "solid",
+    textDecorationColor: "#faad1d",
+    fontSize: "1.9em",
+    fontWeight: 500,
+    fontFamily: defaultFontFamily,
   },
-  {
-    selector: ".pecan-unstyled",
-    type: "unstyled",
-
-    styles: {
-      color: "#444444",
-      "font-size": "1.3em ",
-      "font-weight": "200",
-      "font-family": defaultFontFamily,
-    },
+  unstyled: {
+    color: "#444444",
+    fontSize: "1.3em ",
+    fontWeight: 200,
+    fontFamily: defaultFontFamily,
   },
-]);
+};
 
 export const DefaultColors: DraftStyleMap = {
-  COLOR__1: {
+  color__1: {
     color: "#FF3860",
   },
-  COLOR__2: {
+  color__2: {
     color: "#15b168",
   },
-  COLOR__3: {
+  color__3: {
     color: "#044cd3",
   },
-  COLOR__4: {
+  color__4: {
     color: "#faad1d",
   },
 };

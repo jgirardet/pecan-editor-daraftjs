@@ -1,5 +1,5 @@
 import { EditorState } from "draft-js";
-import { BlockStyles, DefaultsType } from "../types";
+import { BlockStyles } from "../types";
 
 export const fontsize = (style: string) => new FontSize(style);
 
@@ -21,34 +21,27 @@ export class FontSize {
   }
 
   public toStyle(): string {
-    return "FONTSIZE__" + this._float.toFixed(1);
+    return "fontSize__" + this._float.toFixed(1) + "em";
   }
 
-  /* get active fontsize in current Block */
-  public static fromBlock(
-    state: EditorState,
-    blockStyles: BlockStyles,
-    key: string
-  ): FontSize | void {
-    const block = state.getCurrentContent().getBlockMap().get(key);
-    const em = blockStyles.find((x) =>
-      x?.type === block.getType() ? true : false
-    ).styles["font-size"];
-    return em ? FontSize.fromEm(em) : undefined;
+  public mul(x: number): string {
+    return FontSize.fromFloat(this._float * x).toStyle();
   }
 
-  public static fromEm(em: string): FontSize {
-    return new FontSize("FONTSIZE__" + em.trim().replace("em", ""));
+  public static fromEm(em: string | number): FontSize {
+    if (typeof em === "string")
+      return new FontSize("fontSize__" + em.trim().replace("em", ""));
+    else return FontSize.fromFloat(em);
   }
 
   public static fromFloat(float: number): FontSize {
-    return new FontSize("FONTSIZE__" + float.toFixed(1));
+    return new FontSize("fontSize__" + float.toFixed(1));
   }
 
   /* ---------- Private ------------- */
 
   private parseStyle(val: string): number {
-    return parseFloat(val.split("__")[1]);
+    return parseFloat(val.replace("em", "").split("__")[1]);
   }
 
   private _increase() {

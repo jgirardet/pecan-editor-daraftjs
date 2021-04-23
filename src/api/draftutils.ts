@@ -2,12 +2,11 @@
 specific draftjs api utilities 
 */
 
-import { ContentState, DraftInlineStyle, RichUtils } from "draft-js";
+import { ContentState,  RichUtils } from "draft-js";
 import { CharacterMetadata, EditorState, ContentBlock } from "draft-js";
 import { BlockStyles, DefaultsType, SharedState } from "../types";
-import { Color } from "./color";
-import { fontsize, FontSize } from "./fontsize";
-
+import { fontsize } from "./fontsize";
+import CSS from "csstype";
 /*
 Iterate over each choracted and apply cllback to each
 from https://github.com/webdeveloperpr/draft-js-custom-styles/blob/master/src/index.js
@@ -71,85 +70,26 @@ export const mapSelectedCharacters = (
 };
 
 /*
-FindInlineStyle
-Return Inlinestyle if callback is true
-ex : findInlineStyle(state, (val)=>val.startWith("MyStyle"))
-*/
-export function findInlineStyle(
-  state: EditorState,
-  callback: (value?: string) => boolean
-): string {
-  const sel = state.getSelection();
-  let curStyles: DraftInlineStyle;
-  if (sel.isCollapsed()) {
-    curStyles = state.getCurrentInlineStyle();
-  } else {
-    curStyles = state
-      .getCurrentContent()
-      .getBlockMap()
-      .get(sel.getAnchorKey())
-      .getInlineStyleAt(sel.getAnchorOffset());
-  }
-  return curStyles.find(callback);
-}
-
-/*
 findInlineBlockStyle
-if style not inline, try to find it in block
+Given name (string==csskey) return the correspondinf style inline if exists
+and fallback to block
 */
-export function findInlineBlockSyle(
-  state: EditorState,
-  inlinePredicate: (val?: string) => boolean,
-  blockStyles: BlockStyles,
-  blockPredicate: (
-    state: EditorState,
-    blockstyles: BlockStyles,
-    key: string
-  ) => string
-) {
-  let style: string = findInlineStyle(state, inlinePredicate);
-  if (!style) {
-    const sel = state.getSelection();
-    const key = sel.getAnchorKey();
-    style = blockPredicate(state, blockStyles, key);
-  }
-  return style;
-}
-
-/*
-finds fontSize in inline styles then in block
-*/
-export function findInlineBlockFontSize(
+export function findInlineBlockStyle(
+  name: string,
   state: EditorState,
   blockStyles: BlockStyles
-) {
-  return findInlineBlockSyle(
-    state,
-    (val) => val!.startsWith("FONTSIZE"),
-    blockStyles,
-    (state, blockStyles, key) => {
-      const fontsize = FontSize.fromBlock(state, blockStyles, key);
-      return fontsize ? fontsize.toStyle() : "";
-    }
-  );
-}
-
-/*
-finds color in inline styles then in block
-*/
-export function findInlineBlockColor(
-  state: EditorState,
-  blockStyles: BlockStyles
-) {
-  return findInlineBlockSyle(
-    state,
-    (val) => val!.startsWith("COLOR"),
-    blockStyles,
-    (state, blockStyles, key) => {
-      const colored = Color.fromBlock(state, blockStyles, key);
-      return colored ? colored.toStyle() : "";
-    }
-  );
+): string {
+  const styles = state.getCurrentInlineStyle();
+  const inline = styles.find((v) => v!.startsWith(name + "__"));
+  if (inline) return inline;
+  const blockType = RichUtils.getCurrentBlockType(state);
+  if (blockType)
+    return (
+      name +
+      "__" +
+      (blockStyles[blockType][name as keyof CSS.Properties] as string)
+    );
+  else return "";
 }
 
 /*
@@ -163,8 +103,12 @@ export function getSharedState(
     inlineStyles: state.getCurrentInlineStyle().toArray(),
     blockType: RichUtils.getCurrentBlockType(state),
     activeFontSize: fontsize(
-      findInlineBlockFontSize(state, config.styles.blockStyles)
+      findInlineBlockStyle("fontSize", state, config.styles.blockStyles)
     ).float,
-    activeColor: findInlineBlockColor(state, config.styles.blockStyles),
+    activeColor: findInlineBlockStyle(
+      "color",
+      state,
+      config.styles.blockStyles
+    ),
   };
 }

@@ -1,11 +1,8 @@
 import classnames from "classnames";
 import { Editor } from "draft-js";
-import { useCallback, useEffect, useMemo } from "react";
-import { buildCustomStyleMap } from "../api/custom_stylemap";
+import { useCallback,  useMemo } from "react";
 import { getKeyBindingFactory } from "../api/default_keybindings";
-import { ApplyBlockStyles } from "../api/dom_manipulation";
 import {
-  getBlockStyleFn,
   getCustomStyleFn,
   getHandleKeyCommand,
   getOnChange,
@@ -21,36 +18,27 @@ export const EditorArea = ({
   ...props
 }: EditorAreaProps): JSX.Element => {
   const editorConfig = config.editor;
-  const blockStyles = config.styles.blockStyles;
-
-  useEffect(() => {
-    ApplyBlockStyles(blockStyles);
-  }, [blockStyles]);
 
   const onChange = useCallback(() => getOnChange(dispatch), [dispatch]);
-  const blockStyleFn = useMemo(() => getBlockStyleFn(), []);
   const keyBindingFn = useMemo(
     () => getKeyBindingFactory(config.editor.keymapLayout),
     [config.editor.keymapLayout]
   );
-  const customStyleMap = useMemo(() => buildCustomStyleMap(config.styles), [
-    config.styles,
-  ]);
   const handleKeyCommand = useMemo(
     () => getHandleKeyCommand(dispatch, config),
     [dispatch, config]
   );
-  const customStyleFn = useMemo(() => getCustomStyleFn(), []);
+  const customStyleFn = useMemo(() => getCustomStyleFn(config.styles), [
+    config.styles,
+  ]);
   return (
     <div className={classnames(className)} {...props}>
       <Editor
         editorState={editorState}
         onChange={onChange()}
-        blockStyleFn={blockStyleFn}
         keyBindingFn={keyBindingFn}
         handleKeyCommand={handleKeyCommand}
         customStyleFn={customStyleFn}
-        customStyleMap={customStyleMap}
         spellCheck={editorConfig.spellCheckEnabled}
         {...editorProps}
       />

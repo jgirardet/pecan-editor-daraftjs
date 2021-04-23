@@ -72,7 +72,7 @@ describe("ToolbarButtons", () => {
             blockType: genre.blocktype,
             inlineStyles: [],
             activeFontSize: 2.3,
-            activeColor: "COLOR__1",
+            activeColor: "color__1",
           }}
           config={Defaults}
         />

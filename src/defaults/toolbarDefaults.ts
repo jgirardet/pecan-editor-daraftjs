@@ -33,13 +33,13 @@ export const defaultToolbarButtons: ToolbarButtonInput[] = [
   },
   {
     tooltip: "Indice",
-    action: "VERTICAL_ALIGN__SUB",
+    action: "verticalAlign_sub",
     icon: "ri-subscript",
     type: "inline",
   },
   {
     tooltip: "Exposant",
-    action: "VERTICAL_ALIGN__SUPER",
+    action: "verticalAlign_super",
     icon: "ri-superscript",
     type: "inline",
   },

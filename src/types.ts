@@ -1,23 +1,19 @@
-import { EditorState, EditorProps, DraftStyleMap } from "draft-js";
-import { ButtonHTMLAttributes, ReactNode, HTMLAttributes } from "react";
-import { List } from "immutable";
-// defaults
+import {
+  EditorState,
+  EditorProps,
+  DraftStyleMap,
+  DraftInlineStyle,
+  ContentBlock,
+  DraftBlockType,
+} from "draft-js";
+import {
+  ButtonHTMLAttributes,
+  ReactNode,
+  HTMLAttributes,
+  CSSProperties,
+} from "react";
 
-export interface BlockStyle {
-  selector: string;
-  type: string;
-  styles: {
-    color?: string;
-    "text-decoration-line"?: string;
-    "text-decoration-style"?: string;
-    "text-decoration-color"?: string;
-    "text-transform"?: string;
-    "font-size"?: string;
-    "font-weight"?: string;
-    "font-family"?: string;
-  };
-}
-export type BlockStyles = List<BlockStyle>;
+export type BlockStyles = Record<DraftBlockType, CSSProperties>;
 
 export interface EditorDefaultsType {
   spellCheckEnabled: boolean;
@@ -49,9 +45,18 @@ export type KeyLayoutEntry = { modifiers: ModifiersKey; key: string };
 
 export type LayoutByCommand = Record<string, KeyLayoutEntry>;
 
-// ---------------------  components --------------------------------
+export interface CustomStyleFnParams {
+  style: DraftInlineStyle;
+  block: ContentBlock;
+  styles: StylesDefaultsType;
+  currentBlockStyle: CSSProperties;
+  alreadyBuild: CSSProperties;
+}
 
-// generic
+export type CustomStyleFn = (arg0: CustomStyleFnParams) => CSSProperties;
+
+/* ---------------  generic -------------------------------*/
+
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children?: ReactNode;
 }
@@ -63,7 +68,7 @@ export interface DivProps extends HTMLAttributes<HTMLDivElement> {
 export interface AProps extends HTMLAttributes<HTMLAnchorElement> {
   children?: ReactNode;
 }
-// editor
+/* ---------------  components -------------------------------*/
 
 export interface SharedState {
   inlineStyles: string[];
@@ -98,6 +103,7 @@ export interface ToolbarButtonInput {
 export interface ToolbarButtonProps extends ButtonProps, ToolbarProps {
   buttonData: ToolbarButtonInput;
 }
+
 export interface ToolbarProps {
   dispatch: PecanDispatch;
   config: DefaultsType;
@@ -116,7 +122,8 @@ export interface DropDownItemProps extends AProps {
   value: any;
 }
 
-// hooks
+/* ---------------  hooks-------------------------------*/
+
 export interface PecanContextProps {
   editorState: EditorState;
   dispatch: PecanDispatch;

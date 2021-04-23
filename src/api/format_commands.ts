@@ -4,11 +4,11 @@ import { EditorState, RichUtils } from "draft-js";
 import { STYLE_COMMANDS, BLOCK_COMMANDS } from "../defaults/commandsDefaults";
 
 import { CharacterMetadata } from "draft-js";
-import { findInlineBlockFontSize, mapSelectedCharacters } from "./draftutils";
+import { findInlineBlockStyle, mapSelectedCharacters } from "./draftutils";
 import { DefaultsType } from "../types";
-import { FontSize, fontsize } from "./fontsize";
+import {  fontsize } from "./fontsize";
 import { OrderedSet } from "immutable";
-export const RE_STYLE = RegExp("^[A-Z_]+__[.#a-zA-Z0-9]+$"); // match custom styles
+export const RE_STYLE = RegExp("^[A-Za-z_]+__[.#a-zA-Z0-9]+$"); // match custom styles
 
 const LOOP_HEADER = [
   "header-one",
@@ -55,11 +55,17 @@ export function moveFontSize(
   command: string,
   config: DefaultsType
 ): EditorState {
-  const style = findInlineBlockFontSize(state, config.styles.blockStyles);
+  const style = findInlineBlockStyle(
+    "fontSize",
+    state,
+    config.styles.blockStyles
+  );
+  console.log("LESYTLE", style);
   const newFontSizeStyle =
     command === "increase-font"
       ? fontsize(style).increase()
       : fontsize(style).decrease();
+  console.log("NEWFONTSYTLE3,", newFontSizeStyle);
   return switchStyle(state, newFontSizeStyle);
 }
 
@@ -67,7 +73,7 @@ export function moveFontSize(
 Each style has the following format : PREFIX__VALUE
 PREFIX: the collection
 VALUE: the style
-example: COLOR__1, FONTSIZE__12
+example: color__1, fontSize__12em
 */
 export function switchStyle(state: EditorState, newStyle: string): EditorState {
   console.log("switch style", newStyle);

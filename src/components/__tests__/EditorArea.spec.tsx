@@ -31,13 +31,15 @@ describe("Editor Area keymaps", () => {
   });
   it("test Return  Key", () => {
     cy.rooteditor()
-      .type("az")
-      .type("{enter}")
-      .type("er")
-      .get(".pecan-unstyled")
+      // .type("az")
+      .type("az{enter}er")
+      // .type("er")
+      .get("span:first")
       .should("contain", "az")
+      .get("span:last")
       .should("contain", "er")
-      .should("have.length", 2);
+      .get("span")
+      .should("have.length", 4);
   });
 
   inlinestyles.forEach((st) =>
@@ -45,16 +47,11 @@ describe("Editor Area keymaps", () => {
       cy.rooteditor()
         .type(`{ctrl+${st.key}}`)
         .type("az")
-        .get(st.get)
-        .should("have.length", 1);
+        .contains("az")
+        .should("have.css", st.get.split(":"));
     })
   );
 
-  // it("fontsizes", () => {
-  //   Object.entries(
-  //     Defaults.styles.defaultFontSizes
-  //   ).forEach(([nom, value]) => {});
-  // });
 
   it("block style", () => {
     cy.rooteditor()
@@ -80,7 +77,7 @@ describe("Editor Area keymaps", () => {
       .type("{ctrl+y}")
       .get("h4")
       .should("have.length", 0)
-      .get(".pecan-unstyled")
+      .get("span:first")
       .should("have.length", 1);
   });
   it("increase font via keymap", () => {
@@ -91,21 +88,21 @@ describe("Editor Area keymaps", () => {
       .get("span:contains('1'):first")
       .type("{selectAll}")
       .type("{ctrl++}")
-      .should("have.attr", "style", "font-size: 1.4em;")
+      .should("have.css", "font-size", emToPx("1.4em"))
       .type("{ctrl+-}")
       .type("{ctrl+-}")
-      .should("have.attr", "style", "font-size: 1.2em;");
+      .should("have.css", "font-size", emToPx("1.2em"));
   });
   it("clear format vi keymap", () => {
     cy.rooteditor()
       .type("{ctrl+b}")
       .type("ab")
-      .get("span")
-      .should("have.attr", "style", "font-weight: bold;");
-    cy.rooteditor()
+      .contains("ab")
+      .should("have.css", "font-weight", "700");
+      cy.rooteditor()
       .type("{selectAll}{ctrl+,}")
-      .get("span")
-      .should("have.attr", "style", "");
+      .contains("ab")
+      .should("not.have.css", "font-weight", "700");
   });
 });
 
@@ -117,7 +114,7 @@ describe("test blockformatting", () => {
     cy.rooteditor()
       .type("{ctrl+y}")
       .type("11")
-      .get("h1")
+      .get("span:first")
       .should("have.css", "color", "rgb(255, 56, 96)")
       .should("have.css", "text-decoration-color", "rgb(255, 56, 96)")
       .should("have.css", "text-decoration-style", "solid")
@@ -128,7 +125,7 @@ describe("test blockformatting", () => {
       .type("{ctrl+y}")
       .type("{ctrl+y}")
       .type("11")
-      .get("h2")
+      .get("span:first")
       .should("have.css", "color", "rgb(21, 177, 104)")
       .should("have.css", "text-decoration-color", "rgb(21, 177, 104)")
       .should("have.css", "text-decoration-style", "solid")
@@ -140,7 +137,7 @@ describe("test blockformatting", () => {
       .type("{ctrl+y}")
       .type("{ctrl+y}")
       .type("11")
-      .get("h3")
+      .get("span:first")
       .should("have.css", "color", "rgb(4, 76, 211)")
       .should("have.css", "text-decoration-color", "rgb(4, 76, 211)")
       .should("have.css", "text-decoration-style", "solid")
@@ -153,7 +150,7 @@ describe("test blockformatting", () => {
       .type("{ctrl+y}")
       .type("{ctrl+y}")
       .type("11")
-      .get("h4")
+      .get("span:first")
       .should("have.css", "color", "rgb(250, 173, 29)")
       .should("have.css", "text-decoration-color", "rgb(250, 173, 29)")
       .should("have.css", "text-decoration-style", "solid")
@@ -162,37 +159,37 @@ describe("test blockformatting", () => {
 });
 
 describe("font size", () => {
-  const fontsize = Defaults.styles.blockStyles.get(-1).styles["font-size"];
+  // const fontsize = Defaults.styles.blockStyles.unstyled.fontSize;
   beforeEach(() => {
     mount(<FakeEditorArea />);
   });
   it("default", () => {
     cy.rooteditor()
       .type("1")
-      .get("span:contains('1')")
+      .get("span:contains('1'):first")
       .should("have.css", "font-size", emToPx("1.3em"));
   });
   it("increase font via keymap no selection no previous inlinestyle", () => {
     cy.rooteditor()
       .type("{ctrl++}")
       .type("1")
-      .get("span:contains('1')")
-      .should("have.attr", "style", "font-size: 1.4em;")
-      .get(".pecan-unstyled")
+      .get("span:contains('1'):first")
+      .should("have.css", "font-size", emToPx("1.4em"))
+      .get("span:first")
       .type("{ctrl++}")
       .type("2")
       .get("span:contains('2')")
-      .should("have.attr", "style", "font-size: 1.5em;");
-  });
-  it("increase font via keymap selection no previous inlinestyle", () => {
-    cy.rooteditor()
+      .should("have.css", "font-size", emToPx("1.5em"))
+    });
+    it("increase font via keymap selection no previous inlinestyle", () => {
+      cy.rooteditor()
       .type("1")
       .get("span:contains('1')")
       .should("have.css", "font-size", emToPx("1.3em"))
       .get("span:contains('1'):first")
       .type("{selectAll}")
       .type("{ctrl++}")
-      .should("have.attr", "style", "font-size: 1.4em;");
+      .should("have.css", "font-size", emToPx("1.4em"))
   });
   it("increase font via keymap selection with previous inlinestyle", () => {
     cy.rooteditor()
@@ -203,29 +200,29 @@ describe("font size", () => {
       .type("{selectAll}")
       .type("{ctrl++}")
       .type("{ctrl++}")
-      .should("have.attr", "style", "font-size: 1.5em;");
-  });
-  it("decrease font via keymap no selection no previous inlinestyle", () => {
-    cy.rooteditor()
+      .should("have.css", "font-size", emToPx("1.5em"))
+    });
+    it("decrease font via keymap no selection no previous inlinestyle", () => {
+      cy.rooteditor()
       .type("{ctrl+-}")
       .type("1")
       .get("span:contains('1')")
-      .should("have.attr", "style", "font-size: 1.2em;")
-      .get(".pecan-unstyled")
+      .should("have.css", "font-size", emToPx("1.2em"))
+      .get("span:first")
       .type("{ctrl+-}")
       .type("2")
       .get("span:contains('2')")
-      .should("have.attr", "style", "font-size: 1.1em;");
-  });
-  it("decrease font via keymap selection no previous inlinestyle", () => {
-    cy.rooteditor()
+      .should("have.css", "font-size", emToPx("1.1em"))
+    });
+    it("decrease font via keymap selection no previous inlinestyle", () => {
+      cy.rooteditor()
       .type("1")
       .get("span:contains('1')")
       .should("have.css", "font-size", emToPx("1.3em"))
       .get("span:contains('1'):first")
       .type("{selectAll}")
       .type("{ctrl+-}")
-      .should("have.attr", "style", "font-size: 1.2em;");
+      .should("have.css", "font-size", emToPx("1.2em"))
   });
   it("decrease font via keymap selection with previous inlinestyle", () => {
     cy.rooteditor()
@@ -236,6 +233,6 @@ describe("font size", () => {
       .type("{selectAll}")
       .type("{ctrl+-}")
       .type("{ctrl+-}")
-      .should("have.attr", "style", "font-size: 1.1em;");
+      .should("have.css", "font-size", emToPx("1.1em"))
   });
 });

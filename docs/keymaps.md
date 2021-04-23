@@ -9,13 +9,13 @@ PecanEditor Keymaps. Items in **bold** are overrinding default draft-js keymaps.
 | underline       | UNDERLINE               | ctrl+u       | ctrl+u       |
 | strikethrough   | STRIKETHROUGH           | ctrl+é       | ctrl+é       |
 | code            | CODE                    | ctrl+e       | ctrl+e       |
-| color 1         | COLOR\_\_1              | **ctrl+j**   | **ctrl+t**   |
-| color 2         | COLOR\_\_2              | ctrl+k       | ctrl+s       |
-| color 3         | COLOR\_\_3              | ctrl+l       | ctrl+r       |
-| color 4         | COLOR\_\_4              | **ctrl+m**   | ctrl+n       |
+| color 1         | color\_\_1              | **ctrl+j**   | **ctrl+t**   |
+| color 2         | color\_\_2              | ctrl+k       | ctrl+s       |
+| color 3         | color\_\_3              | ctrl+l       | ctrl+r       |
+| color 4         | color\_\_4              | **ctrl+m**   | ctrl+n       |
 | clear format    | CLEAR_FORMAT            | ctrl+,       | ctrl+,       |
-| exposant        | VERTICAL_ALIGN\_\_SUPER | **ctrl+d**   | **ctrl+d**   |
-| indice          | VERTICAL_ALIGN\_\_SUB   | ctrl+o       | ctrl+l       |
+| exposant        | verticalAlign\_\_super | **ctrl+d**   | **ctrl+d**   |
+| indice          | verticalAlign\_\_sub   | ctrl+o       | ctrl+l       |
 | increase font   | increase-font           | ctrl++       | ctrl++       |
 | decrease font   | decrease-font           | ctrl+-       | ctrl+-       |
 | select word     | select-word             | **ctrl+w**   | **ctrl+w**   |

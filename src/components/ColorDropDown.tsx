@@ -10,7 +10,7 @@ export function ColorDropDown({
   dispatch,
 }: ToolbarProps): JSX.Element {
   const { activeColor } = sharedState;
-  const cssColor = activeColor.startsWith("COLOR__#")
+  const cssColor = activeColor.startsWith("color__#")
     ? color(activeColor).hex
     : config.styles.defaultColors[activeColor].color;
   const fontSizeLevel = 5;
@@ -33,7 +33,7 @@ export function ColorDropDown({
     ...mostUsualColors.map((x) => [x, x]),
   ];
   const onSelected = (value: string) => {
-    const payload = "COLOR__" + value;
+    const payload = "color__" + value;
     dispatch({
       type: "APPLY",
       payload: payload,

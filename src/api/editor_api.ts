@@ -5,77 +5,24 @@ import {
   EditorState,
 } from "draft-js";
 import { STYLE_COMMANDS } from "../defaults/commandsDefaults";
-import { DefaultsType, PecanActionsTypes } from "../types";
+import { DefaultsType, PecanActionsTypes, StylesDefaultsType } from "../types";
 import { RE_STYLE } from "./format_commands";
 
-import { Map } from "immutable";
-import { FontSize, fontsize } from "./fontsize";
-import { defaultBlockStyles } from "../defaults/stylesDefaults";
+import { customStyleFnWorkers } from "./customstylefn";
+import { CSSProperties } from "react";
 
-export function getBlockStyleFn() {
-  return (contentBlock: ContentBlock): string => {
-    const type = contentBlock.getType();
-    switch (type) {
-      case "header-one":
-        return "pecan-titre1";
-      case "header-two":
-        return "pecan-titre2";
-      case "header-three":
-        return "pecan-titre3";
-      case "header-four":
-        return "pecan-titre4";
-      default:
-        return "pecan-unstyled";
-    }
-  };
-}
+export function getCustomStyleFn(styles: StylesDefaultsType) {
+  return (style: DraftInlineStyle, block: ContentBlock):CSSProperties => {
+    const currentBlockStyle = styles.blockStyles[block.getType()];
 
-export function getCustomStyleFn() {
-  return (style: DraftInlineStyle, block: ContentBlock) => {
-    let res = Map<string, string>();
-    const blockType = block.getType();
-    const blockDefault = defaultBlockStyles
-      .filter((x) => x?.type === blockType)
-      .first().styles;
-
-    /* size*/
-    const size = style.find((v) => {
-      if (v?.startsWith("FONTSIZE__")) {
-        return true;
-      } else return false;
-    });
-    if (size) {
-      res = res.set("fontSize", size.split("__")[1] + "em");
-    }
-
-    /*color*/
-    const ccolor = style.find((v) => {
-      if (v?.startsWith("COLOR__#")) {
-        return true;
-      } else return false;
-    });
-    if (ccolor) {
-      res = res.set("color", ccolor.split("__")[1]);
-    }
-
-    /* subscript superscript*/
-    const verticalAlign = style.find((v) => {
-      if (v?.startsWith("VERTICAL_ALIGN__")) {
-        return true;
-      } else return false;
-    });
-    if (verticalAlign) {
-      console.log(style.toArray());
-      const currentSize = size
-        ? fontsize(size)
-        : FontSize.fromEm(blockDefault["font-size"]!);
-      const verticalFontSize: string = (currentSize.float / 2).toFixed(1);
-      res = res.merge({
-        verticalAlign: verticalAlign.split("__")[1].toLowerCase(),
-        fontSize: verticalFontSize + "em",
-      });
-    }
-    return res.toJS();
+    const res = customStyleFnWorkers.reduce((prev, fn) => {
+      return Object.assign(
+        prev,
+        fn({ style, block, styles, currentBlockStyle, alreadyBuild: prev })
+      );
+    }, {});
+    console.log("LERES", res);
+    return res;
   };
 }
 

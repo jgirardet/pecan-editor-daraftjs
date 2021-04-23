@@ -6,25 +6,25 @@ const DefaultLayoutCommand: LayoutByCommand = {
   UNDERLINE: { modifiers: "ctrl", key: "u" },
   STRIKETHROUGH: { modifiers: "ctrl", key: "é" },
   CODE: { modifiers: "ctrl", key: "e" },
-  COLOR__1: {
+  color__1: {
     modifiers: "ctrl",
     key: "j",
   },
-  COLOR__2: {
+  color__2: {
     modifiers: "ctrl",
     key: "k",
   },
-  COLOR__3: {
+  color__3: {
     modifiers: "ctrl",
     key: "l",
   },
-  COLOR__4: {
+  color__4: {
     modifiers: "ctrl",
     key: "m",
   },
   CLEAR_FORMAT: { modifiers: "ctrl", key: "," },
-  VERTICAL_ALIGN__SUPER: { modifiers: "ctrl", key: "d" },
-  VERTICAL_ALIGN__SUB: {
+  verticalAlign__super: { modifiers: "ctrl", key: "d" },
+  verticalAlign__sub: {
     modifiers: "ctrl",
     key: "o",
   },
@@ -61,23 +61,23 @@ const DefaultLayoutCommand: LayoutByCommand = {
 const BepoLayoutCommand: LayoutByCommand = {
   ...DefaultLayoutCommand,
   ...{
-    COLOR__1: {
+    color__1: {
       modifiers: "ctrl",
       key: "t",
     },
-    COLOR__2: {
+    color__2: {
       modifiers: "ctrl",
       key: "s",
     },
-    COLOR__3: {
+    color__3: {
       modifiers: "ctrl",
       key: "r",
     },
-    COLOR__4: {
+    color__4: {
       modifiers: "ctrl",
       key: "n",
     },
-    VERTICAL_ALIGN__SUB: {
+    verticalAlign__sub: {
       modifiers: "ctrl",
       key: "l",
     },
