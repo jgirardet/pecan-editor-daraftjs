@@ -12,7 +12,7 @@ import { customStyleFnWorkers } from "./customstylefn";
 import { CSSProperties } from "react";
 
 export function getCustomStyleFn(styles: StylesDefaultsType) {
-  return (style: DraftInlineStyle, block: ContentBlock):CSSProperties => {
+  return (style: DraftInlineStyle, block: ContentBlock): CSSProperties => {
     const currentBlockStyle = styles.blockStyles[block.getType()];
 
     const res = customStyleFnWorkers.reduce((prev, fn) => {
@@ -21,7 +21,6 @@ export function getCustomStyleFn(styles: StylesDefaultsType) {
         fn({ style, block, styles, currentBlockStyle, alreadyBuild: prev })
       );
     }, {});
-    console.log("LERES", res);
     return res;
   };
 }
@@ -46,6 +45,16 @@ export function getHandleKeyCommand(
         payload: { command: command, config: config },
       });
     } else return "not-handled";
+    return "handled";
+  };
+}
+
+export function getHandleReturn(dispatch: React.Dispatch<PecanActionsTypes>) {
+  return (
+    event: React.KeyboardEvent<{}>,
+    editorState: EditorState
+  ): DraftHandleValue => {
+    dispatch({ type: "NEW_EMPTY_BLOCK", payload: "" });
     return "handled";
   };
 }

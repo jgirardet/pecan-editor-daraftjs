@@ -1,4 +1,6 @@
-import { DraftInlineStyle } from "draft-js";
+import {
+  DraftInlineStyle,
+} from "draft-js";
 import { ContentState } from "draft-js";
 import { EditorState, RichUtils } from "draft-js";
 import { STYLE_COMMANDS, BLOCK_COMMANDS } from "../defaults/commandsDefaults";
@@ -6,7 +8,7 @@ import { STYLE_COMMANDS, BLOCK_COMMANDS } from "../defaults/commandsDefaults";
 import { CharacterMetadata } from "draft-js";
 import { findInlineBlockStyle, mapSelectedCharacters } from "./draftutils";
 import { DefaultsType } from "../types";
-import {  fontsize } from "./fontsize";
+import { fontsize } from "./fontsize";
 import { OrderedSet } from "immutable";
 export const RE_STYLE = RegExp("^[A-Za-z_]+__[.#a-zA-Z0-9]+$"); // match custom styles
 

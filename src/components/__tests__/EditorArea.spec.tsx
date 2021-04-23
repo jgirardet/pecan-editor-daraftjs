@@ -6,6 +6,9 @@ import { pecanReducer } from "../../hooks/pecan_reducer";
 import { EditorArea } from "../EditorArea";
 import { emToPx } from "../../testsUtils/editorUtils";
 import { inlinestyles } from "../../testsUtils/samples";
+
+const blockStyles = Defaults.styles.blockStyles
+
 const FakeEditorArea = () => {
   const [state, dispatch] = useReducer(
     pecanReducer,
@@ -51,7 +54,6 @@ describe("Editor Area keymaps", () => {
         .should("have.css", st.get.split(":"));
     })
   );
-
 
   it("block style", () => {
     cy.rooteditor()
@@ -99,7 +101,7 @@ describe("Editor Area keymaps", () => {
       .type("ab")
       .contains("ab")
       .should("have.css", "font-weight", "700");
-      cy.rooteditor()
+    cy.rooteditor()
       .type("{selectAll}{ctrl+,}")
       .contains("ab")
       .should("not.have.css", "font-weight", "700");
@@ -156,6 +158,11 @@ describe("test blockformatting", () => {
       .should("have.css", "text-decoration-style", "solid")
       .should("have.css", "text-decoration-line", "underline");
   });
+  it.only("add newline with unstyled with key Return", () => {
+    cy.rooteditor().type("aa{ctrl+y}").type("{enter}bb");
+    cy.contains("aa").should("have.css", blockStyles["header-one"])
+    cy.contains("bb").should("have.css", blockStyles["unstyled"])
+  });
 });
 
 describe("font size", () => {
@@ -179,17 +186,17 @@ describe("font size", () => {
       .type("{ctrl++}")
       .type("2")
       .get("span:contains('2')")
-      .should("have.css", "font-size", emToPx("1.5em"))
-    });
-    it("increase font via keymap selection no previous inlinestyle", () => {
-      cy.rooteditor()
+      .should("have.css", "font-size", emToPx("1.5em"));
+  });
+  it("increase font via keymap selection no previous inlinestyle", () => {
+    cy.rooteditor()
       .type("1")
       .get("span:contains('1')")
       .should("have.css", "font-size", emToPx("1.3em"))
       .get("span:contains('1'):first")
       .type("{selectAll}")
       .type("{ctrl++}")
-      .should("have.css", "font-size", emToPx("1.4em"))
+      .should("have.css", "font-size", emToPx("1.4em"));
   });
   it("increase font via keymap selection with previous inlinestyle", () => {
     cy.rooteditor()
@@ -200,10 +207,10 @@ describe("font size", () => {
       .type("{selectAll}")
       .type("{ctrl++}")
       .type("{ctrl++}")
-      .should("have.css", "font-size", emToPx("1.5em"))
-    });
-    it("decrease font via keymap no selection no previous inlinestyle", () => {
-      cy.rooteditor()
+      .should("have.css", "font-size", emToPx("1.5em"));
+  });
+  it("decrease font via keymap no selection no previous inlinestyle", () => {
+    cy.rooteditor()
       .type("{ctrl+-}")
       .type("1")
       .get("span:contains('1')")
@@ -212,17 +219,17 @@ describe("font size", () => {
       .type("{ctrl+-}")
       .type("2")
       .get("span:contains('2')")
-      .should("have.css", "font-size", emToPx("1.1em"))
-    });
-    it("decrease font via keymap selection no previous inlinestyle", () => {
-      cy.rooteditor()
+      .should("have.css", "font-size", emToPx("1.1em"));
+  });
+  it("decrease font via keymap selection no previous inlinestyle", () => {
+    cy.rooteditor()
       .type("1")
       .get("span:contains('1')")
       .should("have.css", "font-size", emToPx("1.3em"))
       .get("span:contains('1'):first")
       .type("{selectAll}")
       .type("{ctrl+-}")
-      .should("have.css", "font-size", emToPx("1.2em"))
+      .should("have.css", "font-size", emToPx("1.2em"));
   });
   it("decrease font via keymap selection with previous inlinestyle", () => {
     cy.rooteditor()
@@ -233,6 +240,6 @@ describe("font size", () => {
       .type("{selectAll}")
       .type("{ctrl+-}")
       .type("{ctrl+-}")
-      .should("have.css", "font-size", emToPx("1.1em"))
+      .should("have.css", "font-size", emToPx("1.1em"));
   });
 });

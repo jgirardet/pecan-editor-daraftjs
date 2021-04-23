@@ -1,4 +1,5 @@
 import { EditorState } from "draft-js";
+import { newEmptyBlock } from "../api/draftutils";
 import {
   applyFormatting,
   blockChange,
@@ -19,6 +20,9 @@ export const pecanReducer = (
     }
     case "BLOCK_CHANGE": {
       return blockChange(state, action.payload);
+    }
+    case "NEW_EMPTY_BLOCK": {
+      return newEmptyBlock(state);
     }
     case "FONT_CHANGE": {
       return moveFontSize(state, action.payload.command, action.payload.config);

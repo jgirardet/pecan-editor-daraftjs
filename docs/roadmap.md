@@ -6,6 +6,8 @@
 - [x] custom color
 - [x] toggle si style identique
 - [x] clear inline styles
+- [ ] underline color
+- [ ] background color
 
 # Toolbar
 
@@ -13,6 +15,8 @@
 - [x] color picker
 - [x] fontSize
 - [x] clear inline style
+- [ ] underline color
+- [ ] background color
 - [ ] spellcheck
 
 # commands/keymaps
@@ -24,7 +28,7 @@
 - [ ] select word
 - [ ] undo
 - [ ] redo
-- [ ] splitblock (reset style)
+- [x] splitblock (reset style)
 - [ ] addlinebefore
 - [ ] addlineafter
 - [x] loop header

@@ -2,7 +2,7 @@
 specific draftjs api utilities 
 */
 
-import { ContentState,  RichUtils } from "draft-js";
+import { ContentState, Modifier, RichUtils, SelectionState } from "draft-js";
 import { CharacterMetadata, EditorState, ContentBlock } from "draft-js";
 import { BlockStyles, DefaultsType, SharedState } from "../types";
 import { fontsize } from "./fontsize";
@@ -111,4 +111,20 @@ export function getSharedState(
       config.styles.blockStyles
     ),
   };
+}
+
+/*
+newEmptyBlock
+Insert a new unstyled block
+*/
+export function newEmptyBlock(state: EditorState): EditorState {
+  const splittetContent = Modifier.splitBlock(
+    state.getCurrentContent(),
+    state.getSelection()
+  );
+  const newSel = SelectionState.createEmpty(
+    splittetContent.getLastBlock().getKey()
+  ).set("hasFocus", true) as SelectionState;
+  const intermedi = Modifier.setBlockType(splittetContent, newSel, "unstyled");
+  return EditorState.push(state, intermedi, "split-block");
 }

@@ -130,7 +130,12 @@ export interface PecanContextProps {
   config: DefaultsType;
 }
 
-export type PecanActions = "UPDATE" | "APPLY" | "BLOCK_CHANGE" | "FONT_CHANGE";
+export type PecanActions =
+  | "UPDATE"
+  | "APPLY"
+  | "BLOCK_CHANGE"
+  | "FONT_CHANGE"
+  | "NEW_EMPTY_BLOCK";
 
 export type PecanDispatch = React.Dispatch<PecanActionsTypes>;
 
@@ -159,8 +164,14 @@ export interface PecanActionsIncreaseFont extends PecanActionsType {
   payload: { command: string; config: DefaultsType };
 }
 
+export interface PecanActionsNewEmptyBlock extends PecanActionsType {
+  type: "NEW_EMPTY_BLOCK";
+  payload: string;
+}
+
 export type PecanActionsTypes =
   | PecanActionsUpdate
   | PecanActionsApply
   | PecanActionsBlockChange
-  | PecanActionsIncreaseFont;
+  | PecanActionsIncreaseFont
+  | PecanActionsNewEmptyBlock;

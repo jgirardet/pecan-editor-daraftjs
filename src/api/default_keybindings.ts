@@ -56,7 +56,7 @@ export function getKeyBindingFactory(layout: LayoutByCommand) {
       e.preventDefault();
       return res;
     }
-    else return getDefaultKeyBinding(e);
+    else return null //getDefaultKeyBinding(e);
   };
 }
 
