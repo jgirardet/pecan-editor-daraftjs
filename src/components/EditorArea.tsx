@@ -1,11 +1,13 @@
 import classnames from "classnames";
 import { Editor } from "draft-js";
-import { useCallback,  useMemo } from "react";
-import { getKeyBindingFactory } from "../api/default_keybindings";
+import { useCallback, useMemo } from "react";
+import {
+  getHandleReturn,
+  getKeyBindingFactory,
+} from "../api/default_keybindings";
 import {
   getCustomStyleFn,
   getHandleKeyCommand,
-  getHandleReturn,
   getOnChange,
 } from "../api/editor_api";
 import { EditorAreaProps } from "../types";
@@ -32,14 +34,14 @@ export const EditorArea = ({
   const customStyleFn = useMemo(() => getCustomStyleFn(config.styles), [
     config.styles,
   ]);
-  const handleReturn = getHandleReturn(dispatch)
+  const handleReturn = getHandleReturn(dispatch);
   return (
     <div className={classnames(className)} {...props}>
       <Editor
         editorState={editorState}
         onChange={onChange()}
         keyBindingFn={keyBindingFn}
-        handleReturn={handleReturn}
+        // handleReturn={handleReturn}
         handleKeyCommand={handleKeyCommand}
         customStyleFn={customStyleFn}
         spellCheck={editorConfig.spellCheckEnabled}

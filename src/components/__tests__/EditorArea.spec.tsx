@@ -7,8 +7,6 @@ import { EditorArea } from "../EditorArea";
 import { emToPx } from "../../testsUtils/editorUtils";
 import { inlinestyles } from "../../testsUtils/samples";
 
-const blockStyles = Defaults.styles.blockStyles
-
 const FakeEditorArea = () => {
   const [state, dispatch] = useReducer(
     pecanReducer,
@@ -158,10 +156,36 @@ describe("test blockformatting", () => {
       .should("have.css", "text-decoration-style", "solid")
       .should("have.css", "text-decoration-line", "underline");
   });
-  it.only("add newline with unstyled with key Return", () => {
+  it("add newline with unstyled with key Return", () => {
     cy.rooteditor().type("aa{ctrl+y}").type("{enter}bb");
-    cy.contains("aa").should("have.css", blockStyles["header-one"])
-    cy.contains("bb").should("have.css", blockStyles["unstyled"])
+    cy.contains("aa")
+      .parent()
+      .should("have.css", "text-decoration-line", "underline");
+    cy.contains("bb")
+      .parent()
+      .should("have.css", "text-decoration-line", "none");
+  });
+  it("add new unstyled line  before with shift  Return", () => {
+    cy.rooteditor()
+      .type("aa{ctrl+y}{leftArrow}")
+      .type("{shift+enter}bb{downArrow}{downArrow}cc");
+    cy.contains("aacc")
+      .parent()
+      .should("have.css", "text-decoration-line", "underline");
+    cy.contains("bb")
+      .parent()
+      .should("have.css", "text-decoration-line", "none");
+  });
+  it("add new unstyled line  after with shift  Return", () => {
+    cy.rooteditor()
+      .type("aa{ctrl+y}{leftArrow}")
+      .type("{ctrl+enter}bb{upArrow}{upArrow}cc");
+    cy.contains("ccaa")
+      .parent()
+      .should("have.css", "text-decoration-line", "underline");
+    cy.contains("bb")
+      .parent()
+      .should("have.css", "text-decoration-line", "none");
   });
 });
 

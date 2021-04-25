@@ -2,11 +2,19 @@
 specific draftjs api utilities 
 */
 
-import { ContentState, Modifier, RichUtils, SelectionState } from "draft-js";
+import {
+  ContentState,
+  genKey,
+  Modifier,
+  RichUtils,
+  SelectionState,
+} from "draft-js";
 import { CharacterMetadata, EditorState, ContentBlock } from "draft-js";
 import { BlockStyles, DefaultsType, SharedState } from "../types";
 import { fontsize } from "./fontsize";
 import CSS from "csstype";
+import { OrderedMap } from "immutable";
+
 /*
 Iterate over each choracted and apply cllback to each
 from https://github.com/webdeveloperpr/draft-js-custom-styles/blob/master/src/index.js
@@ -117,14 +125,114 @@ export function getSharedState(
 newEmptyBlock
 Insert a new unstyled block
 */
-export function newEmptyBlock(state: EditorState): EditorState {
-  const splittetContent = Modifier.splitBlock(
-    state.getCurrentContent(),
-    state.getSelection()
+export function newEmptyBlock(
+  state: EditorState,
+  where: string = ""
+): EditorState {
+  if (where === "") {
+    const splittetContent = Modifier.splitBlock(
+      state.getCurrentContent(),
+      state.getSelection()
+    );
+    const activeBlockKey = splittetContent.getSelectionAfter().getAnchorKey();
+
+    const newSel = SelectionState.createEmpty(activeBlockKey).set(
+      "hasFocus",
+      true
+    ) as SelectionState;
+    const newContent = Modifier.setBlockType(
+      splittetContent,
+      newSel,
+      "unstyled"
+    );
+    return EditorState.push(state, newContent, "split-block");
+  } else {
+    const newContent = insertBlock(state, where) as ContentState;
+    return EditorState.push(state, newContent, "insert-fragment");
+  }
+}
+
+/*
+insertBlock
+Insert a block before or after current selection
+helped from : https://stackoverflow.com/a/43504310
+*/
+export const insertBlock = (editorState: EditorState, where: string = "") => {
+  const [blocksBefore, currentBlocks, blocksAfter] = splitSelectedBlocks(
+    editorState
   );
-  const newSel = SelectionState.createEmpty(
-    splittetContent.getLastBlock().getKey()
+
+  const newBlock = getNewEmptyBlockAsBlockMap();
+
+  // block is added before or after
+  let newBlocks =
+    where === "before"
+      ? newBlock.concat(currentBlocks)
+      : currentBlocks.concat(newBlock);
+
+  // rebuild the blockmap
+  const newBlockMap = blocksBefore.concat(newBlocks, blocksAfter);
+
+  // new selection should focus the new empty block
+  const newSelection = SelectionState.createEmpty(
+    newBlock.first().getKey()
   ).set("hasFocus", true) as SelectionState;
-  const intermedi = Modifier.setBlockType(splittetContent, newSel, "unstyled");
-  return EditorState.push(state, intermedi, "split-block");
+
+  const newContentState = ContentState.createFromBlockArray(
+    newBlockMap.toArray()
+  ).merge({
+    selectionBefore: editorState.getSelection(), //old one
+    selectionAfter: newSelection, //new one
+  });
+
+  return newContentState;
+};
+
+/*
+getNewEmptyBlockAsBlockMap
+return a "ready to concat  empty ContentBlock" to blockMap
+*/
+function getNewEmptyBlockAsBlockMap(): OrderedMap<string, ContentBlock> {
+  const key = genKey();
+  const block = new ContentBlock({
+    key: key,
+  });
+  return OrderedMap({ key: block });
+}
+
+/*
+splitSelectedBlocks
+
+Return 3  <blockkey as string,ContentBLock>Iterable:
+ - blocks before selection
+ - selectedblocks
+ - blocks after selection
+*/
+function splitSelectedBlocks(state: EditorState) {
+  const contentState = state.getCurrentContent();
+  const selection = state.getSelection();
+
+  // get starting and ending selection
+  const currentStartBlock = contentState.getBlockForKey(
+    selection.getStartKey()
+  );
+  const currentEndBlock = contentState.getBlockForKey(selection.getEndKey());
+
+  const blockMap = contentState.getBlockMap();
+
+  // select block outside selection
+  const blocksBefore = blockMap.takeUntil(function (v) {
+    return v === currentStartBlock;
+  });
+  const blocksAfter = blockMap
+    .skipUntil(function (v) {
+      return v === currentEndBlock;
+    })
+    .rest();
+
+  // get selectedblock
+  const currentBlocks = blockMap
+    .skipUntil((v) => v === currentStartBlock)
+    .takeUntil((v) => v === blocksAfter.first());
+  return [blocksBefore, currentBlocks, blocksAfter];
 }

@@ -1,8 +1,4 @@
-import {
-  CharacterMetadata,
-  EditorState,
-  RichUtils,
-} from "draft-js";
+import { CharacterMetadata, EditorState, RichUtils } from "draft-js";
 import { getAllChars, setEditorSelection } from "../../testsUtils/editorUtils";
 import { mapSelectedCharacters, newEmptyBlock } from "../draftutils";
 
@@ -55,8 +51,8 @@ describe("test mapSelectedCharacters", () => {
 });
 
 describe("test add new empty block", () => {
-  function fixture(state: EditorState) {
-    const newState = newEmptyBlock(state);
+  function fixture(state: EditorState, where: string = "") {
+    const newState = newEmptyBlock(state, where);
     const block0 = newState.getCurrentContent().getFirstBlock();
     const block1 = newState.getCurrentContent().getLastBlock();
     const sel = newState.getSelection();
@@ -108,6 +104,7 @@ describe("test add new empty block", () => {
     expect(block0.getType()).equal("header-one");
     expect(block1.getType()).equal("unstyled");
   });
+
   it("test from h1 midblock", () => {
     const state0 = RichUtils.toggleBlockType(
       createEditorStateWithText("aa"),
@@ -117,7 +114,7 @@ describe("test add new empty block", () => {
       state0,
       state0.getSelection().merge({ anchorOffset: 1, focusOffset: 1 })
     );
-    const { newState, block0, block1, sel } = fixture(state);
+    const { newState, block0, block1, sel } = fixture(state, "");
 
     expect(sel.get("hasFocus")).true;
     expect(sel.getAnchorKey()).equal(block1.getKey());
@@ -127,4 +124,46 @@ describe("test add new empty block", () => {
     expect(block0.getType()).equal("header-one");
     expect(block1.getType()).equal("unstyled");
   });
+  it("test from h1 midblock after", () => {
+    const state0 = RichUtils.toggleBlockType(
+      createEditorStateWithText("aa"),
+      "header-one"
+    );
+    const state = EditorState.acceptSelection(
+      state0,
+      state0.getSelection().merge({ anchorOffset: 1, focusOffset: 1 })
+    );
+    const { newState, block0, block1, sel } = fixture(state, "after");
+
+    expect(sel.get("hasFocus")).true;
+    expect(sel.getAnchorKey()).equal(block1.getKey());
+    expect(sel.getFocusKey()).equal(block1.getKey());
+    expect(block0.getText()).equal("aa");
+    expect(block1.getText()).equal("");
+    expect(block0.getType()).equal("header-one");
+    expect(block1.getType()).equal("unstyled");
+  });
+  it("test from h1 midblock before", () => {
+    const state0 = RichUtils.toggleBlockType(
+      createEditorStateWithText("aa"),
+      "header-one"
+    );
+    const state = EditorState.acceptSelection(
+      state0,
+      state0.getSelection().merge({ anchorOffset: 1, focusOffset: 1 })
+    );
+    const { newState, block0, block1, sel } = fixture(state, "before");
+
+    expect(sel.get("hasFocus")).true;
+    expect(sel.getAnchorKey()).equal(block0.getKey());
+    expect(sel.getFocusKey()).equal(block0.getKey());
+    expect(block0.getText()).equal("");
+    expect(block1.getText()).equal("aa");
+    expect(block1.getType()).equal("header-one");
+    expect(block0.getType()).equal("unstyled");
+  });
+});
+
+describe("splitSelectBlock", () => {
+  // tested via test new empty block
 });

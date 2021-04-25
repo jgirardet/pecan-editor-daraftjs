@@ -1,7 +1,7 @@
 import React from "react";
 
-import { getDefaultKeyBinding, KeyBindingUtil } from "draft-js";
-import { LayoutByCommand } from "../types";
+import { DraftHandleValue, EditorState, KeyBindingUtil } from "draft-js";
+import { LayoutByCommand, PecanActionsTypes } from "../types";
 
 let { hasCommandModifier } = KeyBindingUtil;
 
@@ -10,8 +10,6 @@ const isCtrlShift = (e: React.KeyboardEvent<{}>) =>
   hasCommandModifier(e) && e.shiftKey;
 const isShift = (e: React.KeyboardEvent<{}>) =>
   !hasCommandModifier(e) && e.shiftKey && !e.altKey;
-const hasNoModifier = (e: React.KeyboardEvent<{}>) =>
-  !hasCommandModifier(e) && !e.shiftKey && !e.altKey;
 
 type KeyCommand = Record<string, string>;
 type FormattedLayout = {
@@ -48,16 +46,24 @@ export function getKeyBindingFactory(layout: LayoutByCommand) {
     if (!res) {
       if (isCtrl(e)) res = formatted.ctrl[key];
       else if (isShift(e)) res = formatted.shift[key];
-    } else if (hasNoModifier(e)) {
-      res = formatted.noModifier[key];
+      else res = formatted.noModifier[key];
     }
     console.log(res);
     if (res) {
       e.preventDefault();
       return res;
-    }
-    else return null //getDefaultKeyBinding(e);
+    } else return null; //getDefaultKeyBinding(e);
   };
 }
 
 // null;
+export function getHandleReturn(dispatch: React.Dispatch<PecanActionsTypes>) {
+  return (
+    event: React.KeyboardEvent<{}>,
+    editorState: EditorState
+  ): DraftHandleValue => {
+    let payload = "";
+    dispatch({ type: "NEW_EMPTY_BLOCK", payload: "" });
+    return "handled";
+  };
+}

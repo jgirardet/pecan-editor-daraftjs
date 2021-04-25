@@ -36,7 +36,7 @@ const DefaultLayoutCommand: LayoutByCommand = {
     modifiers: "ctrl+shift",
     key: "z",
   },
-  "split-block": { modifiers: "", key: "Enter" },
+  "split-block-unstyled": { modifiers: "", key: "Enter" },
   "add-line-before": { modifiers: "shift", key: "Enter" },
   "add-line-after": { modifiers: "ctrl", key: "Enter" },
   "loop-header": {

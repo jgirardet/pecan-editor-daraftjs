@@ -31,7 +31,13 @@ export function getHandleKeyCommand(
 ) {
   return (command: string): DraftHandleValue => {
     console.log("handleKeyCommand :", command);
-    if (
+    if (command === "split-block-unstyled")
+      dispatch({ type: "NEW_EMPTY_BLOCK", payload: "" });
+    else if (command === "add-line-before")
+      dispatch({ type: "NEW_EMPTY_BLOCK", payload: "before" });
+    else if (command === "add-line-after")
+      dispatch({ type: "NEW_EMPTY_BLOCK", payload: "after" });
+    else if (
       STYLE_COMMANDS.includes(command) ||
       RE_STYLE.test(command) ||
       command === "CLEAR_FORMAT"
@@ -45,16 +51,6 @@ export function getHandleKeyCommand(
         payload: { command: command, config: config },
       });
     } else return "not-handled";
-    return "handled";
-  };
-}
-
-export function getHandleReturn(dispatch: React.Dispatch<PecanActionsTypes>) {
-  return (
-    event: React.KeyboardEvent<{}>,
-    editorState: EditorState
-  ): DraftHandleValue => {
-    dispatch({ type: "NEW_EMPTY_BLOCK", payload: "" });
     return "handled";
   };
 }

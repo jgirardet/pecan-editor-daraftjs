@@ -15,6 +15,7 @@
 - [x] color picker
 - [x] fontSize
 - [x] clear inline style
+- [x] fix header click (dropdown better)
 - [ ] underline color
 - [ ] background color
 - [ ] spellcheck
@@ -29,13 +30,14 @@
 - [ ] undo
 - [ ] redo
 - [x] splitblock (reset style)
-- [ ] addlinebefore
-- [ ] addlineafter
+- [x] addlinebefore
+- [x] addlineafter
 - [x] loop header
 - [ ] loop list type
 - [ ] list increase
 - [ ] list decrease
 - [ ] popup menu
+- [ ] backspace
 
 # organisation du code
 
@@ -46,8 +48,8 @@
 - [ ] gerer config/default
 - [ ] loader la config
 - [ ] changer APPLY to FORMAT et peut être d'autrs
+- [ ] passer à redux ?
 
 # tests
 
 - [ ] tester keymap bepo
-- [ ]

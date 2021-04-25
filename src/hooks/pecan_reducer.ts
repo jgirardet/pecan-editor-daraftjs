@@ -22,7 +22,7 @@ export const pecanReducer = (
       return blockChange(state, action.payload);
     }
     case "NEW_EMPTY_BLOCK": {
-      return newEmptyBlock(state);
+      return newEmptyBlock(state, action.payload);
     }
     case "FONT_CHANGE": {
       return moveFontSize(state, action.payload.command, action.payload.config);
